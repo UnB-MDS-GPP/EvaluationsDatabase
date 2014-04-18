@@ -112,6 +112,42 @@ public class GenericCRUDModel extends DataBaseConnection{
 	}
 
 
+	public ArrayList<Hashtable<String, String>> selectWhere(String tableName, ArrayList<String> fields, String conditions) {
+		if(fields.size() == 0)
+			return null;
+
+		int i;
+		ResultSet rs;
+		String sql = this.fieldsSelectSql(tableName, fields);
+
+		ArrayList<Hashtable<String, String>> rows = new ArrayList<Hashtable<String, String>>();
+		Hashtable<String, String> fieldsData;
+		
+		sql += " WHERE "+conditions;
+		
+		try {
+			this.openConnection();
+            rs = this.stm.executeQuery(sql);
+
+            while (rs.next()) {
+                fieldsData = new Hashtable<String, String>();
+
+                for(i=0; i < fields.size(); i++)
+                    fieldsData.put(fields.get(i), rs.getString(fields.get(i)));
+
+                rows.add(fieldsData);
+            }
+
+            rs.close();
+            this.closeConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+		return rows;
+	}
+
+
 	public int count(String tableName) {
 		String sql = "select count(*) from "+tableName;
 		int result = 0;

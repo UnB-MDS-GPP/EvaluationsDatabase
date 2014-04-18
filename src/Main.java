@@ -11,13 +11,22 @@ public class Main {
 			DataBaseStructures dbStructures = new DataBaseStructures("test");
 			dbStructures.initDB();
 
-			Curso curso = Curso.get(1);
+			ArrayList<Curso> list = Curso.getAll();
 			
-			if( curso != null ) {
-				System.out.println("ID: "+curso.getId());
+			System.out.println("TOTAL: "+list.size());
+			
+			for(int i = 0; i < list.size(); i++) {
+				Curso curso = list.get(i);
+				
+				System.out.println("\nID: "+curso.getId());
 				System.out.println("Nome: "+curso.getNome());
-			} else
-				System.out.println("Curso table is empty");
+			}
+			
+			//System.out.println("First: "+Curso.first().getNome());
+			//System.out.println("Last: "+Curso.last().getNome());
+
+			System.out.println(Curso.getWhere("nome", "AAA", false));
+			System.out.println(Curso.getWhere("nome", "A", true));
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
