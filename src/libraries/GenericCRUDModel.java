@@ -10,6 +10,11 @@ public class GenericCRUDModel extends DataBaseConnection{
 	public GenericCRUDModel() throws SQLException, ClassNotFoundException {
 		super();
 	}
+	
+	public GenericCRUDModel(String dataBaseName) throws SQLException, ClassNotFoundException {
+		super(dataBaseName);
+	}
+
 
 	public boolean insert(String tableName, Hashtable<String, String> tableData) throws SQLException {
 		String key, sqlKeys="", sqlValues="";
@@ -26,13 +31,24 @@ public class GenericCRUDModel extends DataBaseConnection{
 
 		String sql = "INSERT INTO "+tableName+"("+sqlKeys+") VALUES("+sqlValues+")";
 
-		return this.stm.execute(sql);
+		this.openConnection();
+		boolean result = this.stm.execute(sql);
+		this.closeConnection();
+
+		return result;
 	}
+
 
 	public boolean delete(String tableName, int id) throws SQLException {
 		String sql = "DELETE FROM "+tableName+" WHERE id="+Integer.toString(id);
-		return this.stm.execute(sql);
+
+		this.openConnection();
+		boolean result = this.stm.execute(sql);
+		this.closeConnection();
+
+		return result;
 	}
+
 
 	public boolean update(String tableName, Hashtable<String, String> tableData, int id) throws SQLException {
 		String sql = "UPDATE "+tableName+" SET ";
@@ -45,9 +61,14 @@ public class GenericCRUDModel extends DataBaseConnection{
 		}
 		sql = sql.substring(0, sql.length()-1);
 		sql += " WHERE id="+Integer.toString(id);
+		
+		this.openConnection();
+		boolean result = this.stm.execute(sql);
+		this.closeConnection();
 
-		return this.stm.execute(sql);
+		return result;
 	}
+
 
 	public ArrayList<Hashtable<String, String>> select(String tableName, ArrayList<String> fields, int id) {
 		if(fields.size() == 0)
@@ -71,7 +92,9 @@ public class GenericCRUDModel extends DataBaseConnection{
 			sql += " WHERE id="+Integer.toString(id);
 
 		try {
+			this.openConnection();
             rs = this.stm.executeQuery(sql);
+
             while (rs.next()) {
                 fieldsData = new Hashtable<String, String>();
 
@@ -80,8 +103,9 @@ public class GenericCRUDModel extends DataBaseConnection{
 
                 rows.add(fieldsData);
             }
-            rs.close();
 
+            rs.close();
+            this.closeConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -89,17 +113,21 @@ public class GenericCRUDModel extends DataBaseConnection{
 		return rows;
 	}
 
+
 	public ArrayList<Hashtable<String, String>> select(String tableName, ArrayList<String> fields) {
 		return this.select(tableName, fields, 0);
 	}
+
 
 	public int count(String tableName) {
 		String sql = "select count(*) from "+tableName;
 		int result = 0;
 
 		try {
+			this.openConnection();
 			ResultSet rs = this.stm.executeQuery(sql);
 			result = rs.getInt(1);
+			this.closeConnection();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

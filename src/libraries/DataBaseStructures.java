@@ -12,24 +12,32 @@ public class DataBaseStructures extends DataBaseConnection {
 
     public void initDB() {
         try {
+            this.openConnection();
+
             this.buildTableArtigos();
             this.buildTableAvaliacoes();
             this.buildTableCurso();
             this.buildTableCursosInstituicoes();
             this.buildTableInstituicao();
             this.buildTableLivros();
+
+            this.closeConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     public void dropDB() throws SQLException {
+    	this.openConnection();
+
         this.stm.execute("DROP TABLE IF EXISTS 'curso'");
         this.stm.execute("DROP TABLE IF EXISTS 'instituicao'");
         this.stm.execute("DROP TABLE IF EXISTS 'cursos_instituicoes'");
         this.stm.execute("DROP TABLE IF EXISTS 'artigos'");
         this.stm.execute("DROP TABLE IF EXISTS 'livros'");
         this.stm.execute("DROP TABLE IF EXISTS 'avaliacoes'");
+
+        this.closeConnection();
     }
 
     private void buildTableCurso() throws SQLException {
