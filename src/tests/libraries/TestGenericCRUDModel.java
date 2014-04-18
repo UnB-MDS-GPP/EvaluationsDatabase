@@ -76,6 +76,46 @@ public class TestGenericCRUDModel {
 		
 		assertEquals(count, data.size());
 	}
+	
+	@Test
+	public void shouldUpdatetDataOnDatabase() throws SQLException {
+		this.insertDefaultTestData();
+		ArrayList<String> fields = new ArrayList<String>();
+		int id = 1;
+		
+		fields.add("id");
+		fields.add("internacionais");
+		fields.add("nacionais");
+		fields.add("locais");
+
+		ArrayList<Hashtable<String, String>> data = crudModel.select("artigos", fields, id);
+		
+		ArrayList<String> dataBefore = new ArrayList<String>();
+		ArrayList<String> dataAfter = new ArrayList<String>();
+		
+		dataBefore.add(data.get(0).get("id"));
+		dataBefore.add(data.get(0).get("internacionais"));
+		dataBefore.add(data.get(0).get("nacionais"));
+		dataBefore.add(data.get(0).get("locais"));
+		
+		Hashtable<String, String> newData = new Hashtable<String, String>();
+		newData.put("internacionais", "100");
+		newData.put("nacionais", "100");
+		newData.put("locais", "100");
+		
+		crudModel.update("artigos", newData, id);
+		
+		data = crudModel.select("artigos", fields, id);
+		dataAfter.add(data.get(0).get("id"));
+		dataAfter.add(data.get(0).get("internacionais"));
+		dataAfter.add(data.get(0).get("nacionais"));
+		dataAfter.add(data.get(0).get("locais"));
+		
+		assertEquals(dataBefore.get(0), dataAfter.get(0));
+		assertNotEquals(dataBefore.get(1), dataAfter.get(1));
+		assertNotEquals(dataBefore.get(2), dataAfter.get(2));
+		assertNotEquals(dataBefore.get(3), dataAfter.get(3));
+	}
 
 
 	private void insertDefaultTestData() throws SQLException {
