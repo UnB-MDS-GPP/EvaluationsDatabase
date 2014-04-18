@@ -118,12 +118,41 @@ public class TestGenericCRUDModel {
 	}
 
 
+	@Test
+	public void shouldReturnFirstOrLastRowInATable() throws SQLException {
+		this.insertDefaultTestData("1", "2", "3");
+		this.insertDefaultTestData("4", "5", "5");
+		ArrayList<String> fields = new ArrayList<String>();
+
+		fields.add("id");
+		fields.add("internacionais");
+		fields.add("nacionais");
+		fields.add("locais");
+
+		ArrayList<Hashtable<String, String>> data = crudModel.select("artigos", fields);
+		Hashtable<String, String> first = crudModel.firstOrLast("artigos", fields, false);
+		Hashtable<String, String> last = crudModel.firstOrLast("artigos", fields, true);
+
+		assertEquals(data.get(0), first);
+		assertEquals(data.get(data.size()-1), last);
+	}
+
+
 	private void insertDefaultTestData() throws SQLException {
 		Hashtable<String, String> data = new Hashtable<String, String>();
 		
 		data.put("internacionais", "40");
 		data.put("nacionais", "50");
 		data.put("locais", "60");
+		this.crudModel.insert("artigos", data);
+	}
+
+	private void insertDefaultTestData(String internacionais, String nacionais, String locais) throws SQLException {
+		Hashtable<String, String> data = new Hashtable<String, String>();
+
+		data.put("internacionais", internacionais);
+		data.put("nacionais", nacionais);
+		data.put("locais", locais);
 		this.crudModel.insert("artigos", data);
 	}
 }

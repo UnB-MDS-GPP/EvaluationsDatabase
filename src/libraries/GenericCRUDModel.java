@@ -76,17 +76,10 @@ public class GenericCRUDModel extends DataBaseConnection{
 
 		int i;
 		ResultSet rs;
-		String sql = "SELECT ";
+		String sql = this.fieldsSelectSql(tableName, fields);
 
 		ArrayList<Hashtable<String, String>> rows = new ArrayList<Hashtable<String, String>>();
 		Hashtable<String, String> fieldsData;
-
-		for (i = 0; i < fields.size(); i++) {
-			sql += fields.get(i).toString()+",";
-		}
-
-		sql = sql.substring(0, sql.length()-1);
-		sql += " FROM '"+tableName+"'";
 
 		if(id > 0)
 			sql += " WHERE id="+Integer.toString(id);
@@ -133,5 +126,49 @@ public class GenericCRUDModel extends DataBaseConnection{
 		}
 
 		return result;
+	}
+
+
+	public Hashtable<String, String> firstOrLast(String tableName, ArrayList<String> fields, boolean last) {
+		if(fields.size() == 0)
+			return null;
+
+		Hashtable<String, String> result = new Hashtable<String, String>();
+		ResultSet rs;
+		String sql = this.fieldsSelectSql(tableName, fields) + " ORDER BY id";
+
+		if( last == true )
+			sql += " DESC";
+
+		sql += " LIMIT 1";
+
+		try {
+			this.openConnection();
+			rs = this.stm.executeQuery(sql);
+
+			for(int i=0; i < fields.size(); i++)
+				result.put(fields.get(i), rs.getString(fields.get(i)));
+
+			this.closeConnection();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+
+	private String fieldsSelectSql(String tableName, ArrayList<String> fields) {
+		String sql = "SELECT ";
+		int i;
+
+		for (i = 0; i < fields.size(); i++) {
+			sql += fields.get(i).toString()+",";
+		}
+
+		sql = sql.substring(0, sql.length()-1);
+		sql += " FROM '"+tableName+"' ";
+
+		return sql;
 	}
 }
