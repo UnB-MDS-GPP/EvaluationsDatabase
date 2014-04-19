@@ -212,18 +212,19 @@ public class GenericCRUDModel extends DataBaseConnection{
 		}
 
 		result = (this.pst.executeUpdate() == 1) ? true : false;
-
+		this.closeConnection();
 		return result;
 	}
 	
 	private boolean executePreparedStatement(String sql, ArrayList<String> data , String condition) throws SQLException{
+		boolean result = false;
 		this.openConnection();
 		this.pst = conn.prepareStatement(sql);
 		data.add(condition);
 		for(int i = 0; i < data.size(); i++){
 			this.pst.setString(i+1, data.get(i));
 		}
-		boolean result = this.pst.execute();
+		result = (this.pst.executeUpdate() == 1) ? true : false;
 		this.closeConnection();
 		return result;
 	}
