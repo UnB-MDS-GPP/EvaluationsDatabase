@@ -51,7 +51,25 @@ public class Curso {
 
 		return result;
 	}
-	
+
+	public boolean delete() {
+		boolean result = false;
+
+		try {
+			GenericCRUDModel crud = new GenericCRUDModel();
+
+			if( this.id > 0 ) {
+				result = crud.delete("curso", this.id);
+				this.id = 0;
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+
 	public static ArrayList<String> fieldsList() {
 		ArrayList<String> fields = new ArrayList<String>();
 		
