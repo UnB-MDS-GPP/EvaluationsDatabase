@@ -33,7 +33,7 @@ public class TestGenericCRUDModel {
 
 	@Before
 	public void setUp() throws Exception {
-		crudModel = new GenericCRUDModel();
+		crudModel = new GenericCRUDModel("test");
 	}
 
 
