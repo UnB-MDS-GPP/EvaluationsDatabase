@@ -18,34 +18,29 @@ public class GenericCRUDModel extends DataBaseConnection{
 
 	public boolean insert(String tableName, Hashtable<String, String> tableData) throws SQLException {
 		String key, sqlKeys="", sqlValues="";
-
 		Enumeration<String> keys = tableData.keys();
+		
 		while(keys.hasMoreElements()) {
 			key = keys.nextElement().toString();
 			sqlKeys += "'"+key+"',";
-			sqlValues += "'"+tableData.get(key)+"',";
+			sqlValues += "?,";
 		}
-
 		sqlKeys = sqlKeys.substring(0, sqlKeys.length()-1);
 		sqlValues = sqlValues.substring(0, sqlValues.length()-1);
 
 		String sql = "INSERT INTO "+tableName+"("+sqlKeys+") VALUES("+sqlValues+")";
 
-		this.openConnection();
-		boolean result = this.stm.execute(sql);
-		this.closeConnection();
-
+		boolean result  = this.executePreparedStatement(sql,new ArrayList<String>(tableData.values()));
+		
 		return result;
 	}
 
 
 	public boolean delete(String tableName, int id) throws SQLException {
-		String sql = "DELETE FROM "+tableName+" WHERE id="+Integer.toString(id);
-
-		this.openConnection();
-		boolean result = this.stm.execute(sql);
-		this.closeConnection();
-
+		String sql = "DELETE FROM "+tableName+" WHERE id=?";
+		
+		boolean result = this.executePreparedStatement(sql,Integer.toString(id));
+		
 		return result;
 	}
 
@@ -57,15 +52,13 @@ public class GenericCRUDModel extends DataBaseConnection{
 		Enumeration<String> keys = tableData.keys();
 		while(keys.hasMoreElements()) {
 			key = keys.nextElement().toString();
-			sql += key+"='"+tableData.get(key)+"',";
+			sql += key+"=?,";
 		}
 		sql = sql.substring(0, sql.length()-1);
-		sql += " WHERE id="+Integer.toString(id);
+		sql += " WHERE id=?";
 		
-		this.openConnection();
-		boolean result = this.stm.execute(sql);
-		this.closeConnection();
-
+		boolean result = this.executePreparedStatement(sql, new ArrayList<>(tableData.values()), Integer.toString(id));
+		
 		return result;
 	}
 
@@ -82,11 +75,14 @@ public class GenericCRUDModel extends DataBaseConnection{
 		Hashtable<String, String> fieldsData;
 
 		if(id > 0)
-			sql += " WHERE id="+Integer.toString(id);
+			sql += " WHERE id=?";
 
 		try {
 			this.openConnection();
-            rs = this.stm.executeQuery(sql);
+			this.pst = this.conn.prepareStatement(sql);
+			if(id > 0)
+				this.pst.setInt(1, id);
+            rs = this.pst.executeQuery();
 
             while (rs.next()) {
                 fieldsData = new Hashtable<String, String>();
@@ -206,5 +202,37 @@ public class GenericCRUDModel extends DataBaseConnection{
 		sql += " FROM '"+tableName+"' ";
 
 		return sql;
+	}
+	
+	private boolean executePreparedStatement(String sql, ArrayList<String> data) throws SQLException{
+		this.openConnection();
+		this.pst = conn.prepareStatement(sql);
+		for(int i = 0; i < data.size(); i++){
+			this.pst.setString(i+1, data.get(i));
+		}
+		boolean result = this.pst.execute();
+		this.closeConnection();
+		return result;
+	}
+	
+	private boolean executePreparedStatement(String sql, ArrayList<String> data , String condition) throws SQLException{
+		this.openConnection();
+		this.pst = conn.prepareStatement(sql);
+		data.add(condition);
+		for(int i = 0; i < data.size(); i++){
+			this.pst.setString(i+1, data.get(i));
+		}
+		boolean result = this.pst.execute();
+		this.closeConnection();
+		return result;
+	}
+	
+	private boolean executePreparedStatement(String sql, String data) throws SQLException{
+		this.openConnection();
+		this.pst = conn.prepareStatement(sql);
+		this.pst.setString(1, data);
+		boolean result = this.pst.execute();
+		this.closeConnection();
+		return result;
 	}
 }
