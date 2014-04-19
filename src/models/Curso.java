@@ -42,9 +42,12 @@ public class Curso {
 
 			if( this.id > 0 )
 				result = crud.update("curso", data, this.id);
-			else
+			else {
 				result = crud.insert("curso", data);
 
+				if (result)
+					this.id = Curso.last().getId();
+			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

@@ -30,16 +30,14 @@ public class GenericCRUDModel extends DataBaseConnection{
 
 		String sql = "INSERT INTO "+tableName+"("+sqlKeys+") VALUES("+sqlValues+")";
 
-		boolean result  = this.executePreparedStatement(sql,new ArrayList<String>(tableData.values()));
-		
-		return result;
+		return this.executePreparedStatement(sql,new ArrayList<String>(tableData.values()));
 	}
 
 
 	public boolean delete(String tableName, int id) throws SQLException {
 		String sql = "DELETE FROM "+tableName+" WHERE id=?";
 		
-		boolean result = this.executePreparedStatement(sql,Integer.toString(id));
+		boolean result = this.executePreparedStatement(sql, Integer.toString(id));
 		
 		return result;
 	}
@@ -205,13 +203,16 @@ public class GenericCRUDModel extends DataBaseConnection{
 	}
 	
 	private boolean executePreparedStatement(String sql, ArrayList<String> data) throws SQLException{
+		boolean result = false;
+
 		this.openConnection();
 		this.pst = conn.prepareStatement(sql);
 		for(int i = 0; i < data.size(); i++){
 			this.pst.setString(i+1, data.get(i));
 		}
-		boolean result = this.pst.execute();
-		this.closeConnection();
+
+		result = (this.pst.executeUpdate() == 1) ? true : false;
+
 		return result;
 	}
 	
@@ -231,8 +232,9 @@ public class GenericCRUDModel extends DataBaseConnection{
 		this.openConnection();
 		this.pst = conn.prepareStatement(sql);
 		this.pst.setString(1, data);
-		boolean result = this.pst.execute();
+		int result = this.pst.executeUpdate();
 		this.closeConnection();
-		return result;
+
+		return (result == 1) ? true : false;
 	}
 }
