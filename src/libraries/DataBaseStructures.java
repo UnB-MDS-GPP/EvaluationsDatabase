@@ -9,18 +9,18 @@ public class DataBaseStructures extends DataBaseConnection {
     public DataBaseStructures(String dataBaseName)  throws SQLException, ClassNotFoundException {
         super(dataBaseName);
     }
-
+    
     public void initDB() {
         try {
             this.openConnection();
-
+            
             this.buildTableArtigos();
             this.buildTableAvaliacoes();
             this.buildTableCurso();
             this.buildTableCursosInstituicoes();
             this.buildTableInstituicao();
             this.buildTableLivros();
-
+            
             this.closeConnection();
         } catch (SQLException e) {
             e.printStackTrace();
