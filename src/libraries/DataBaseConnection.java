@@ -5,6 +5,7 @@ import java.sql.*;
 public abstract class DataBaseConnection {
 	private String dataBaseName;
     protected Connection conn;
+    protected PreparedStatement pst;
     protected Statement stm;
 
     public DataBaseConnection() throws SQLException, ClassNotFoundException {
@@ -20,7 +21,7 @@ public abstract class DataBaseConnection {
     protected void openConnection() {
     	try {
     		this.conn = DriverManager.getConnection(this.dataBaseName);
-            this.stm = this.conn.createStatement();
+    		this.stm = conn.createStatement();
     	} catch(SQLException e) {
     		e.printStackTrace();
     	}
