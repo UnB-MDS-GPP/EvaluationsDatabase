@@ -41,6 +41,18 @@ public class GenericCRUDModel extends DataBaseConnection{
 		
 		return result;
 	}
+	
+	public boolean deleteWhere(String tableName, Hashtable<String, String> conditions) throws SQLException {
+		String sql = "DELETE FROM "+tableName+" WHERE ";
+		String key;
+		while(conditions.keys().hasMoreElements()) {
+			key = conditions.keys().nextElement().toString();
+			sql += key+"=?,";
+		}
+		boolean result = this.executePreparedStatement(sql, new ArrayList<String>(conditions.values()));
+		
+		return result;
+	}
 
 
 	public boolean update(String tableName, Hashtable<String, String> tableData, int id) throws SQLException {
