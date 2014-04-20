@@ -2,13 +2,13 @@ package tests.models;
 
 import static org.junit.Assert.*;
 import libraries.DataBaseStructures;
-import models.Curso;
+import models.Course;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class TestCurso {
+public class TestCourse {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -30,30 +30,30 @@ public class TestCurso {
 
 	@Test
 	public void shouldCreateNewCursoOnDataBase() {
-		int initialCount = Curso.count();
+		int initialCount = Course.count();
 
-		Curso curso = new Curso();
-		curso.setNome("Um Novo curso");
+		Course curso = new Course();
+		curso.setName("Um Novo curso");
 
 		assertEquals(true, curso.save());
-		assertEquals(initialCount, Curso.count()-1);
+		assertEquals(initialCount, Course.count()-1);
 
-		assertEquals(curso.getId(), Curso.last().getId());
+		assertEquals(curso.getId(), Course.last().getId());
 	}
 
 	@Test
 	public void shouldDeleteCursoOnDataBase() {
-		Curso curso = new Curso();
-		curso.setNome("Um Novo curso");
+		Course curso = new Course();
+		curso.setName("Um Novo curso");
 		curso.save();
 
-		curso = new Curso();
-		curso.setNome("Outro nome");
+		curso = new Course();
+		curso.setName("Outro nome");
 		curso.save();
 
-		int count = Curso.count();
+		int count = Course.count();
 
 		assertEquals(true, curso.delete());
-		assertEquals(count-1, Curso.count());
+		assertEquals(count-1, Course.count());
 	}
 }

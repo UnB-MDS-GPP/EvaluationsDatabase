@@ -5,29 +5,29 @@ import java.util.Hashtable;
 
 import libraries.GenericCRUDModel;;
 
-public class Curso {
+public class Course {
 	private int id;
-	private String nome;
+	private String name;
 
-	public Curso() {
+	public Course() {
 		this.id = 0;
 	}
 	
-	public Curso(int id, String nome) {
+	public Course(int id, String name) {
 		this.id = id;
-		this.nome = nome;
+		this.name = name;
 	}
 	
 	public int getId() {
 		return id;
 	}
 	
-	public String getNome() {
-		return nome;
+	public String getName() {
+		return name;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 
@@ -35,18 +35,18 @@ public class Curso {
 		boolean result = false;
 
 		Hashtable<String, String> data = new Hashtable<String, String>();
-		data.put("nome", this.getNome());
+		data.put("name", this.getName());
 
 		try {
 			GenericCRUDModel crud = new GenericCRUDModel();
 
 			if( this.id > 0 )
-				result = crud.update("curso", data, this.id);
+				result = crud.update("course", data, this.id);
 			else {
-				result = crud.insert("curso", data);
+				result = crud.insert("course", data);
 
 				if (result)
-					this.id = Curso.last().getId();
+					this.id = Course.last().getId();
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -62,7 +62,7 @@ public class Curso {
 			GenericCRUDModel crud = new GenericCRUDModel();
 
 			if( this.id > 0 ) {
-				result = crud.delete("curso", this.id);
+				result = crud.delete("course", this.id);
 				this.id = 0;
 			}
 		} catch(Exception e) {
@@ -77,39 +77,39 @@ public class Curso {
 		ArrayList<String> fields = new ArrayList<String>();
 		
 		fields.add("id");
-		fields.add("nome");
+		fields.add("name");
 
 		return fields;
 	}
 
 
-	public static Curso get(int id) {
-		Curso curso = null;
+	public static Course get(int id) {
+		Course course = null;
 
 		try {
 			GenericCRUDModel crud = new GenericCRUDModel();
-			ArrayList<Hashtable<String, String>> data = crud.select("curso", Curso.fieldsList(), id);
+			ArrayList<Hashtable<String, String>> data = crud.select("course", Course.fieldsList(), id);
 
 			if( data.size() == 1 ) {
-				String idCurso = data.get(0).get("id");
-				String nomeCurso = data.get(0).get("nome");
+				String idcourse = data.get(0).get("id");
+				String namecourse = data.get(0).get("name");
 
-				curso = new Curso(Integer.parseInt(idCurso), nomeCurso);
+				course = new Course(Integer.parseInt(idcourse), namecourse);
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 
-		return curso;
+		return course;
 	}
 
-	public static ArrayList<Curso> getAll() {
-		ArrayList<Curso> result = new ArrayList<Curso>();
+	public static ArrayList<Course> getAll() {
+		ArrayList<Course> result = new ArrayList<Course>();
 
 		try {
 			GenericCRUDModel crud = new GenericCRUDModel();
 
-			ArrayList<Hashtable<String, String>> selectRsult = crud.select("curso", Curso.fieldsList());
+			ArrayList<Hashtable<String, String>> selectRsult = crud.select("course", Course.fieldsList());
 
 			if( selectRsult.size() > 0 ) {
 				Hashtable<String, String> row;
@@ -117,7 +117,7 @@ public class Curso {
 				for(int i = 0; i < selectRsult.size(); i++) {
 					row = selectRsult.get(i);
 
-					result.add(new Curso(Integer.parseInt(row.get("id")), row.get("nome")));
+					result.add(new Course(Integer.parseInt(row.get("id")), row.get("name")));
 				}
 			}
 		} catch(Exception e) {
@@ -133,7 +133,7 @@ public class Curso {
 
 		try {
 			GenericCRUDModel crud = new GenericCRUDModel();
-			count = crud.count("curso");
+			count = crud.count("course");
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -142,42 +142,42 @@ public class Curso {
 	}
 
 
-	public static Curso first() {
-		Curso curso = null;
+	public static Course first() {
+		Course course = null;
 
 		try {
 			GenericCRUDModel crud = new GenericCRUDModel();
 
-			Hashtable<String, String> row = crud.firstOrLast("curso", Curso.fieldsList(), false);
+			Hashtable<String, String> row = crud.firstOrLast("course", Course.fieldsList(), false);
 
-			curso = new Curso(Integer.parseInt(row.get("id")), row.get("nome"));
+			course = new Course(Integer.parseInt(row.get("id")), row.get("name"));
 
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		return curso;
+		return course;
 	}
 
 
-	public static Curso last() {
-		Curso curso = null;
+	public static Course last() {
+		Course course = null;
 
 		try {
 			GenericCRUDModel crud = new GenericCRUDModel();
 
-			Hashtable<String, String> row = crud.firstOrLast("curso", Curso.fieldsList(), true);
+			Hashtable<String, String> row = crud.firstOrLast("course", Course.fieldsList(), true);
 
-			curso = new Curso(Integer.parseInt(row.get("id")), row.get("nome"));
+			course = new Course(Integer.parseInt(row.get("id")), row.get("name"));
 
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		return curso;
+		return course;
 	}
 
 
-	public static ArrayList<Curso> getWhere(String key, String value, boolean like) {
-		ArrayList<Curso> result = new ArrayList<Curso>();
+	public static ArrayList<Course> getWhere(String key, String value, boolean like) {
+		ArrayList<Course> result = new ArrayList<Course>();
 		String conditions;
 
 		if( like == true )
@@ -188,7 +188,7 @@ public class Curso {
 		try {
 			GenericCRUDModel crud = new GenericCRUDModel();
 
-			ArrayList<Hashtable<String, String>> selectRsult = crud.selectWhere("curso", Curso.fieldsList(), conditions);
+			ArrayList<Hashtable<String, String>> selectRsult = crud.selectWhere("course", Course.fieldsList(), conditions);
 
 			if( selectRsult.size() > 0 ) {
 				Hashtable<String, String> row;
@@ -196,7 +196,7 @@ public class Curso {
 				for(int i = 0; i < selectRsult.size(); i++) {
 					row = selectRsult.get(i);
 
-					result.add(new Curso(Integer.parseInt(row.get("id")), row.get("nome")));
+					result.add(new Course(Integer.parseInt(row.get("id")), row.get("name")));
 				}
 			}
 		} catch(Exception e) {
