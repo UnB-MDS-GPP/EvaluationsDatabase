@@ -6,20 +6,24 @@ import java.util.Hashtable;
 import libraries.GenericCRUDModel;;
 
 public class Course {
-	private int id;
+	private Integer id;
 	private String name;
 
 	public Course() {
 		this.id = 0;
 	}
 	
-	public Course(int id, String name) {
+	public Course(Integer id, String name) {
 		this.id = id;
 		this.name = name;
 	}
 	
 	public int getId() {
 		return id;
+	}
+	
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	
 	public String getName() {

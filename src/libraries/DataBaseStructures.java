@@ -17,7 +17,7 @@ public class DataBaseStructures extends DataBaseConnection {
             this.buildTableArticles();
             this.buildTableEvaluation();
             this.buildTableCourse();
-            this.buildTableCoursesInstituicoes();
+            this.buildTableCoursesInstitutions();
             this.buildTableInstitution();
             this.buildTableBooks();
 
@@ -58,7 +58,7 @@ public class DataBaseStructures extends DataBaseConnection {
      * FIXME add foreign key support to database. E.g.:
      * FOREIGN KEY(id_instituicao) REFERENCES institution(id)
      */
-    private void buildTableCoursesInstituicoes() throws SQLException {
+    private void buildTableCoursesInstitutions() throws SQLException {
     	String sql = "CREATE TABLE IF NOT EXISTS 'courses_institutions' (" +
     				"'id_institution' INTEGER NOT NULL," +
     				"'id_course' INTEGER NOT NULL)";
