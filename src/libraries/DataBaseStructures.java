@@ -53,7 +53,11 @@ public class DataBaseStructures extends DataBaseConnection {
     		    "'sigla' TEXT NOT NULL)";
     	this.stm.execute(sql);
     }
-
+    
+    /*
+     * FIXME add foreign key support to database. E.g.:
+     * FOREIGN KEY(id_instituicao) REFERENCES instituicao(id)
+     */
     private void buildTableCursosInstituicoes() throws SQLException {
     	String sql = "CREATE TABLE IF NOT EXISTS 'cursos_instituicoes' (" +
     				"'id' INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -81,7 +85,11 @@ public class DataBaseStructures extends DataBaseConnection {
     		    "'verbetes' INTEGER)";
     	this.stm.execute(sql);
     }
-
+    
+    /*
+     * FIXME add foreign key support to database. E.g.:
+     * FOREIGN KEY(id_artigos) REFERENCES artigos(id)
+     */
     private void buildTableAvaliacoes() throws SQLException {
     	String sql = "CREATE TABLE IF NOT EXISTS 'avaliacoes' (" +
     		    "'id' INTEGER PRIMARY KEY AUTOINCREMENT," +
