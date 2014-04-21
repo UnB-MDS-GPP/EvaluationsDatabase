@@ -19,6 +19,13 @@ public class TestCourse {
 	public static void setUpBeforeClass() throws Exception {
 		DataBaseStructures db = new DataBaseStructures();
 		db.initDB();
+		Course course = new Course();
+		course.setName("one");
+		course.save();
+
+		course = new Course();
+		course.setName("two");
+		course.save();
 	}
 
 
@@ -42,23 +49,18 @@ public class TestCourse {
 
 		assertEquals(true, course.save());
 		assertEquals(initialCount, Course.count()-1);
+		course.delete();
 	}
 
 	@Test
 	public void shouldCountCoursesOnDataBase() throws ClassNotFoundException, SQLException {
-		int count1 = Course.count();
-
+		int initialCount = Course.count();
 		Course course = new Course();
-		course.setName("A new course");
+		course.setName("Course");
 		course.save();
-
-		int count2 = Course.count();
-		course = new Course();
-		course.setName("Other course");
-		course.save();
-
-		assertEquals(count1, count2-1);
-		assertEquals(count2, Course.count()-1);
+		assertEquals(initialCount+1, (int)Course.count());
+		assertEquals(Course.getAll().size(), (int)Course.count());
+		course.delete();
 	}
 
 	@Test
@@ -70,54 +72,23 @@ public class TestCourse {
 		Course course2 = Course.get(Course.last().getId());
 
 		assertEquals(course1.getName(), course2.getName());
+		course1.delete();
 	}
 
 	@Test
 	public void shouldGetAllCoursesOnDataBase() throws ClassNotFoundException, SQLException {
-		Course course;
-
-		course = new Course();
-		course.setName("Course A");
-		course.save();
-
-		course = new Course();
-		course.setName("Course B");
-		course.save();
-
 		int total = Course.count();
-
 		assertEquals(total, Course.getAll().size());
 	}
 	
 	@Test
 	public void shouldGetTheFirstCourseOnDataBase() throws ClassNotFoundException, SQLException {
-		Course course;
-
-		course = new Course();
-		course.setName("Course A");
-		course.save();
-
-		course = new Course();
-		course.setName("Course B");
-		course.save();
-
 		Course first = Course.first();
-
 		assertEquals(first.getName(), Course.getAll().get(0).getName());
 	}
 
 	@Test
 	public void shouldGetTheLastCourseOnDataBase() throws ClassNotFoundException, SQLException {
-		Course course;
-
-		course = new Course();
-		course.setName("Course A");
-		course.save();
-
-		course = new Course();
-		course.setName("Course B");
-		course.save();
-
 		Course last = Course.last();
 
 		ArrayList<Course> courses = Course.getAll();
@@ -126,15 +97,13 @@ public class TestCourse {
 	
 	@Test
 	public void shouldGetCoursesWithWhereOnDataBase() throws ClassNotFoundException, SQLException {
-		Course course;
-
-		course = new Course();
+		Course course = new Course();
 		course.setName("Course AA");
 		course.save();
 
-		course = new Course();
-		course.setName("Course BB");
-		course.save();
+		Course course1 = new Course();
+		course1.setName("Course BB");
+		course1.save();
 
 		ArrayList<Course> courses1 = Course.getWhere("name", "Course", true);
 
@@ -142,5 +111,7 @@ public class TestCourse {
 
 		assertEquals(2, courses1.size());
 		assertEquals(1, courses2.size());
+		course.delete();
+		course1.delete();
 	}
 }

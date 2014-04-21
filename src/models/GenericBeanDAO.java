@@ -230,8 +230,7 @@ public class GenericBeanDAO extends DataBaseConnection {
 		if (beanIdentifier.equals("institution")) {
 			object = new Institution();
 		} else if (beanIdentifier.equals("course")) {
-			// TODO
-			return object;
+			object = new Course();
 		}
 		return object;
 	}

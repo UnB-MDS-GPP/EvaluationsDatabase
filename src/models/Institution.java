@@ -1,152 +1,138 @@
 package models;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Hashtable;
 
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
-
-import libraries.GenericCRUDModel;
-
-public class Institution extends Bean{
+public class Institution extends Bean {
 	private Integer id;
 	private String acronym;
-
 
 	public Institution() {
 		this.id = 0;
 		this.identifier = "institution";
 		this.relationship = "courses_institutions";
 	}
-	
+
 	public Institution(Integer id) {
 		this.id = id;
 		this.identifier = "institution";
 		this.relationship = "courses_institutions";
 	}
-	
+
 	public String getAcronym() {
 		return acronym;
 	}
-	
+
 	public void setAcronym(String acronym) {
 		this.acronym = acronym;
 	}
-	
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
+
 	public Integer getId() {
 		return id;
 	}
-	
-	public boolean save() {
+
+	public boolean save() throws ClassNotFoundException, SQLException {
 		boolean result = false;
-		try {
-			GenericBeanDAO gDB = new GenericBeanDAO();
-			result = gDB.insertBean(this);
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-
+		GenericBeanDAO gDB = new GenericBeanDAO();
+		result = gDB.insertBean(this);
+		this.setId(Institution.last().getId());
 		return result;
 	}
-	
-	public static Institution get(Integer id){
+
+	public static Institution get(Integer id) throws ClassNotFoundException,
+			SQLException {
 		Institution result = new Institution(id);
-		try {
-			GenericBeanDAO gDB = new GenericBeanDAO();
-			result = (Institution)gDB.selectBean(result);
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+		GenericBeanDAO gDB = new GenericBeanDAO();
+		result = (Institution) gDB.selectBean(result);
+		return result;
+	}
 
-		return result;
-	}
-	
-	public static ArrayList<Institution> getAll() {
+	public static ArrayList<Institution> getAll()
+			throws ClassNotFoundException, SQLException {
 		Institution type = new Institution();
 		ArrayList<Institution> result = new ArrayList<Institution>();
-		try {
-			GenericBeanDAO gDB = new GenericBeanDAO();
-			for(Bean b : gDB.selectAllBeans(type)){
-				result.add((Institution)b);
-			}
-		} catch(Exception e) {
-			e.printStackTrace();
+		GenericBeanDAO gDB = new GenericBeanDAO();
+		for (Bean b : gDB.selectAllBeans(type)) {
+			result.add((Institution) b);
 		}
 		return result;
 	}
-	
-	public static Integer count(){
+
+	public static Integer count() throws ClassNotFoundException, SQLException {
 		Institution type = new Institution();
-		int result = 0;
-		try {
-			GenericBeanDAO gDB = new GenericBeanDAO();
-			result = gDB.countBean(type);
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		return result;
+		GenericBeanDAO gDB = new GenericBeanDAO();
+		return gDB.countBean(type);
 	}
-	
-	public static Institution first(){
+
+	public static Institution first() throws ClassNotFoundException,
+			SQLException {
 		Institution result = new Institution();
-		try {
-			GenericBeanDAO gDB = new GenericBeanDAO();
-			result = (Institution)gDB.firstOrLastBean(result,false);
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+		GenericBeanDAO gDB = new GenericBeanDAO();
+		result = (Institution) gDB.firstOrLastBean(result, false);
 		return result;
 	}
-	
-	public static Institution last(){
+
+	public static Institution last() throws ClassNotFoundException,
+			SQLException {
 		Institution result = new Institution();
-		try {
-			GenericBeanDAO gDB = new GenericBeanDAO();
-			result = (Institution)gDB.firstOrLastBean(result,true);
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+		GenericBeanDAO gDB = new GenericBeanDAO();
+		result = (Institution) gDB.firstOrLastBean(result, true);
 		return result;
 	}
-	
-	public static ArrayList<Institution> getWhere(String field, String value, boolean like) {
+
+	public ArrayList<Course> getCourses() throws ClassNotFoundException,
+			SQLException {
+		ArrayList<Course> courses = new ArrayList<Course>();
+		GenericBeanDAO gDB = new GenericBeanDAO();
+		for (Bean b : gDB.selectBeanRelationship(this, "course")) {
+			courses.add((Course) b);
+		}
+		return courses;
+	}
+
+	public static ArrayList<Institution> getWhere(String field, String value,
+			boolean like) throws ClassNotFoundException, SQLException {
 		Institution type = new Institution();
 		ArrayList<Institution> result = new ArrayList<Institution>();
-		try {
-			GenericBeanDAO gDB = new GenericBeanDAO();
-			for(Bean b : gDB.selectBeanWhere(type, field, value, like)){
-				result.add((Institution)b);
-			}
-		} catch(Exception e) {
-			e.printStackTrace();
+		GenericBeanDAO gDB = new GenericBeanDAO();
+		for (Bean b : gDB.selectBeanWhere(type, field, value, like)) {
+			result.add((Institution) b);
 		}
+		return result;
+	}
+	
+	public boolean delete() throws ClassNotFoundException, SQLException {
+		boolean result = false;
+		GenericBeanDAO gDB = new GenericBeanDAO();
+		result = gDB.deleteBean(this);
 		return result;
 	}
 
 	@Override
 	public String get(String field) {
-		if(field.equals("id")){
+		if (field.equals("id")) {
 			return Integer.toString(this.getId());
-		}else if(field.equals("acronym")){
+		} else if (field.equals("acronym")) {
 			return this.getAcronym();
-		}else {
-		return "";
+		} else {
+			return "";
 		}
 	}
 
 	@Override
 	public void set(String field, String data) {
-		if(field.equals("id")){
+		if (field.equals("id")) {
 			this.setId(Integer.parseInt(data));
-		}else if(field.equals("acronym")){
+		} else if (field.equals("acronym")) {
 			this.setAcronym(data);
-		}else {
-		
+		} else {
+
 		}
-		
+
 	}
 
 	@Override
@@ -156,6 +142,5 @@ public class Institution extends Bean{
 		fields.add("acronym");
 		return fields;
 	}
-	
-	
+
 }

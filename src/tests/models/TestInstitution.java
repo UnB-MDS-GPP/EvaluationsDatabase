@@ -17,13 +17,19 @@ public class TestInstitution {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		DataBaseStructures db = new DataBaseStructures("test");
+		DataBaseStructures db = new DataBaseStructures();
 		db.initDB();
+		Institution institution = new Institution();
+		institution.setAcronym("one");
+		institution.save();
+		institution = new Institution();
+		institution.setAcronym("two");
+		institution.save();
 	}
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		DataBaseStructures db = new DataBaseStructures("test");
+		DataBaseStructures db = new DataBaseStructures();
 		db.dropDB();
 	}
 
@@ -35,9 +41,11 @@ public class TestInstitution {
 	public void shouldCreateNewInstitutionOnDataBase()
 			throws ClassNotFoundException, SQLException {
 		Institution institution = new Institution();
-		institution.setAcronym("one");
+		institution.setAcronym("three");
 		institution.save();
-		assertEquals("one", Institution.get(1).getAcronym());
+		assertEquals("three", Institution.last().getAcronym());
+		institution = Institution.last();
+		institution.delete();
 	}
 
 	@Test
@@ -45,24 +53,16 @@ public class TestInstitution {
 			throws ClassNotFoundException, SQLException {
 		int initialCount = Institution.count();
 		Institution institution = new Institution();
-		institution.setAcronym("one");
+		institution.setAcronym("other");
 		institution.save();
-		institution = new Institution();
-		institution.setAcronym("two");
-		institution.save();
-		assertEquals(initialCount+2, (int)Institution.count());
+		assertEquals(initialCount+1, (int)Institution.count());
 		assertEquals(Institution.getAll().size(), (int)Institution.count());
+		institution.delete();
 	}
 	
 	@Test
 	public void shouldGetAllInstitutionsOnDataBase()
 			throws ClassNotFoundException, SQLException {
-		Institution institution = new Institution();
-		institution.setAcronym("one");
-		institution.save();
-		institution = new Institution();
-		institution.setAcronym("two");
-		institution.save();
 		assertEquals("one", Institution.getAll().get(0).getAcronym());
 		assertEquals("two", Institution.getAll().get(1).getAcronym());
 	}
@@ -70,9 +70,6 @@ public class TestInstitution {
 	@Test
 	public void shouldGetInstitutionOnDataBase()
 			throws ClassNotFoundException, SQLException {
-		Institution institution = new Institution();
-		institution.setAcronym("one");
-		institution.save();
 		assertEquals("one", Institution.get(1).getAcronym());
 		assertEquals(Institution.getAll().get(0).getAcronym(), Institution.get(1).getAcronym());
 	}
@@ -80,12 +77,6 @@ public class TestInstitution {
 	@Test
 	public void shouldGetFirstInstitutionOnDataBase()
 			throws ClassNotFoundException, SQLException {
-		Institution institution = new Institution();
-		institution.setAcronym("one");
-		institution.save();
-		institution = new Institution();
-		institution.setAcronym("two");
-		institution.save();
 		assertEquals("one", Institution.first().getAcronym());
 		assertEquals(Institution.getAll().get(0).getAcronym(), Institution
 				.first().getAcronym());
@@ -94,12 +85,6 @@ public class TestInstitution {
 	@Test
 	public void shouldGetLastInstitutionOnDataBase()
 			throws ClassNotFoundException, SQLException {
-		Institution institution = new Institution();
-		institution.setAcronym("one");
-		institution.save();
-		institution = new Institution();
-		institution.setAcronym("two");
-		institution.save();
 		assertEquals("two", Institution.last().getAcronym());
 		assertEquals(Institution.getAll().get(1).getAcronym(), Institution
 				.last().getAcronym());
@@ -108,15 +93,13 @@ public class TestInstitution {
 	@Test
 	public void shouldGetInstitutionsWithWhereOnDataBase()
 			throws ClassNotFoundException, SQLException {
-		Institution institution;
-
-		institution = new Institution();
+		Institution institution = new Institution();
 		institution.setAcronym("Institution AA");
 		institution.save();
 
-		institution = new Institution();
-		institution.setAcronym("Institution BB");
-		institution.save();
+		Institution institution1 = new Institution();
+		institution1.setAcronym("Institution BB");
+		institution1.save();
 
 		ArrayList<Institution> institutions1 = Institution.getWhere("acronym", "Institution", true);
 
@@ -124,5 +107,7 @@ public class TestInstitution {
 		
 		assertEquals(2, institutions1.size());
 		assertEquals(1, institutions2.size());
+		institution.delete();
+		institution1.delete();
 	}
 }
