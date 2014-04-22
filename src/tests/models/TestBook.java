@@ -20,14 +20,14 @@ public class TestBook {
 		DataBaseStructures db = new DataBaseStructures();
 		db.initDB();
 		Book book = new Book();
-		book.setIntegralText(Integer.parseInt("1000"));
+		book.setIntegralText(Integer.parseInt("1111"));
 		book.setChapters(Integer.parseInt("5"));
 		book.setCollections(Integer.parseInt("1"));
 		book.setEntries(Integer.parseInt("1"));
 		book.save();
 
 		book = new Book();
-		book.setIntegralText(Integer.parseInt("2000"));
+		book.setIntegralText(Integer.parseInt("2222"));
 		book.setChapters(Integer.parseInt("10"));
 		book.setCollections(Integer.parseInt("2"));
 		book.setEntries(Integer.parseInt("2"));
@@ -138,8 +138,8 @@ public class TestBook {
 		ArrayList<Book> books1 = Book.getWhere("integral_text", "00", true);
 		ArrayList<Book> books2 = Book.getWhere("integral_text", "10", true);
 		
-		assertEquals(4, books1.size());
-		assertEquals(2, books2.size());
+		assertEquals(2, books1.size());
+		assertEquals(1, books2.size());
 		
 		book.delete();
 		book1.delete();
