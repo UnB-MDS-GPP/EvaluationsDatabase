@@ -9,7 +9,6 @@ public abstract class DataBaseConnection {
 	private String dataBaseName;
     protected Connection conn;
     protected PreparedStatement pst;
-    protected Statement stm;
     private Properties connectionProperties;
 
     public DataBaseConnection() throws SQLException, ClassNotFoundException {
@@ -20,28 +19,11 @@ public abstract class DataBaseConnection {
         connectionProperties = config.toProperties();
     }
 
-    public DataBaseConnection(String dataBaseName) throws SQLException, ClassNotFoundException {
-        Class.forName("org.sqlite.JDBC");
-        this.dataBaseName = "jdbc:sqlite:"+dataBaseName+".sqlite3.db";
-        SQLiteConfig config = new SQLiteConfig();
-		config.enforceForeignKeys(true);
-        connectionProperties = config.toProperties();
-    }
-
-    protected void openConnection() {
-    	try {
+    protected void openConnection() throws SQLException{
     		this.conn = DriverManager.getConnection(this.dataBaseName,this.connectionProperties);
-    		this.stm = conn.createStatement();
-    	} catch(SQLException e) {
-    		e.printStackTrace();
-    	}
     }
     
-    protected void closeConnection() {
-    	try {
+    protected void closeConnection() throws SQLException{
     		this.conn.close();
-    	} catch(SQLException e) {
-    		e.printStackTrace();
-    	}
     }
 }

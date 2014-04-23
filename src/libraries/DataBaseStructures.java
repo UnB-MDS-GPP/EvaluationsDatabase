@@ -1,19 +1,22 @@
 package libraries;
 
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DataBaseStructures extends DataBaseConnection {
+	
+	Statement stm;
+	
     public DataBaseStructures()  throws SQLException, ClassNotFoundException {
         super();
+        
     }
-    public DataBaseStructures(String dataBaseName)  throws SQLException, ClassNotFoundException {
-        super(dataBaseName);
-    }
+
 
     public void initDB() {
         try {
             this.openConnection();
-
+            this.stm = this.conn.createStatement();
             this.buildTableArticles();
             this.buildTableEvaluation();
             this.buildTableCourse();
@@ -29,7 +32,7 @@ public class DataBaseStructures extends DataBaseConnection {
 
     public void dropDB() throws SQLException {
     	this.openConnection();
-
+    	this.stm = this.conn.createStatement();
         this.stm.execute("DROP TABLE IF EXISTS 'course'");
         this.stm.execute("DROP TABLE IF EXISTS 'institution'");
         this.stm.execute("DROP TABLE IF EXISTS 'courses_institutions'");
