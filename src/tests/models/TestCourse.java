@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import libraries.DataBaseStructures;
 import models.Course;
+import models.Institution;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -93,6 +94,44 @@ public class TestCourse {
 
 		ArrayList<Course> courses = Course.getAll();
 		assertEquals(last.getName(), courses.get(courses.size()-1).getName());
+	}
+	
+	@Test
+	public void shouldGetCourseInstitutionsOnDataBase()
+			throws ClassNotFoundException, SQLException {
+		Course course = new Course();
+		course.setName("Java");
+		course.save();
+		Institution institution = new Institution();
+		institution.setAcronym("one");
+		institution.save();
+		Institution institution1 = new Institution();
+		institution1.setAcronym("two");
+		institution1.save();
+		course.addInstitution(institution);
+		course.addInstitution(institution1);
+		assertEquals("one", Course.last().getInstitutions().get(0).getAcronym());
+		assertEquals("two", Course.last().getInstitutions().get(1).getAcronym());
+		assertEquals(2, Course.last().getInstitutions().size());
+		course.delete();
+		institution.delete();
+		institution1.delete();
+	}
+	
+	@Test
+	public void shouldCreateCourseInstitutionOnDataBase()
+			throws ClassNotFoundException, SQLException {
+		Course course = new Course();
+		course.setName("Java");
+		course.save();
+		Institution institution = new Institution();
+		institution.setAcronym("one");
+		institution.save();
+		course.addInstitution(institution);
+		assertEquals("one", Course.last().getInstitutions().get(0).getAcronym());
+		assertEquals(course.getId(), Institution.last().getCourses().get(0).getId());
+		course.delete();
+		institution.delete();
 	}
 	
 	@Test
