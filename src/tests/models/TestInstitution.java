@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import libraries.DataBaseStructures;
+import models.Course;
 import models.Institution;
 
 import org.junit.AfterClass;
@@ -89,6 +90,44 @@ public class TestInstitution {
 		assertEquals(Institution.getAll().get(1).getAcronym(), Institution
 				.last().getAcronym());
 	}
+	
+	@Test
+	public void shouldGetInstitutionCoursesOnDataBase()
+			throws ClassNotFoundException, SQLException {
+		Institution institution = new Institution();
+		institution.setAcronym("three");
+		institution.save();
+		Course course = new Course();
+		course.setName("Java");
+		course.save();
+		institution.addCourse(course);
+		Course course1 = new Course();
+		course1.setName("Phyton");
+		course1.save();
+		institution.addCourse(course1);
+		assertEquals("Java", Institution.last().getCourses().get(0).getName());
+		assertEquals("Phyton", Institution.last().getCourses().get(1).getName());
+		assertEquals(2, Institution.last().getCourses().size());
+		institution.delete();
+		course.delete();
+		course1.delete();
+	}
+	
+	@Test
+	public void shouldCreateInstitutionCourseOnDataBase()
+			throws ClassNotFoundException, SQLException {
+		Institution institution = new Institution();
+		institution.setAcronym("three");
+		institution.save();
+		Course course = new Course();
+		course.setName("Java");
+		course.save();
+		institution.addCourse(course);
+		assertEquals("Java", Institution.last().getCourses().get(0).getName());
+		assertEquals(course.getId(), Institution.last().getCourses().get(0).getId());
+		institution.delete();
+		course.delete();
+	}
 
 	@Test
 	public void shouldGetInstitutionsWithWhereOnDataBase()
@@ -105,8 +144,11 @@ public class TestInstitution {
 
 		ArrayList<Institution> institutions2 = Institution.getWhere("acronym", "AA", true);
 		
+		ArrayList<Institution> institutions3 = Institution.getWhere("acronym", "Institution AA", false);
+		
 		assertEquals(2, institutions1.size());
 		assertEquals(1, institutions2.size());
+		assertEquals(1, institutions3.size());
 		institution.delete();
 		institution1.delete();
 	}

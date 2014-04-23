@@ -42,6 +42,13 @@ public class Institution extends Bean {
 		this.setId(Institution.last().getId());
 		return result;
 	}
+	
+	public boolean addCourse(Course course) throws ClassNotFoundException, SQLException {
+		boolean result = false;
+		GenericBeanDAO gDB = new GenericBeanDAO();
+		result = gDB.addBeanRelationship(this, course);
+		return result;
+	}
 
 	public static Institution get(Integer id) throws ClassNotFoundException,
 			SQLException {
@@ -93,6 +100,8 @@ public class Institution extends Bean {
 		}
 		return courses;
 	}
+	
+	
 
 	public static ArrayList<Institution> getWhere(String field, String value,
 			boolean like) throws ClassNotFoundException, SQLException {
@@ -108,6 +117,9 @@ public class Institution extends Bean {
 	public boolean delete() throws ClassNotFoundException, SQLException {
 		boolean result = false;
 		GenericBeanDAO gDB = new GenericBeanDAO();
+		for(Course c : this.getCourses()){
+			gDB.deleteBeanRelationship(this,c);
+		}
 		result = gDB.deleteBean(this);
 		return result;
 	}

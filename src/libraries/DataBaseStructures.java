@@ -13,8 +13,8 @@ public class DataBaseStructures extends DataBaseConnection {
     }
 
 
-    public void initDB() {
-        try {
+    public void initDB() throws SQLException{
+
             this.openConnection();
             this.stm = this.conn.createStatement();
             this.buildTableArticles();
@@ -25,9 +25,6 @@ public class DataBaseStructures extends DataBaseConnection {
             this.buildTableBooks();
 
             this.closeConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     public void dropDB() throws SQLException {

@@ -61,7 +61,7 @@ public class GenericBeanDAO extends DataBaseConnection {
 		ResultSet rs = this.pst.executeQuery();
 		while (rs.next()) {
 			Bean object = init(table);
-			for (String s : bean.fieldsList()) {
+			for (String s : object.fieldsList()) {
 				object.set(s, rs.getString(s));
 			}
 			beans.add(object);
@@ -100,6 +100,20 @@ public class GenericBeanDAO extends DataBaseConnection {
 		String sql = "INSERT INTO " + parentBean.relationship + "(id_"
 				+ parentBean.identifier + ",id_" + childBean.identifier
 				+ ") VALUES(?,?)";
+		this.pst = this.conn.prepareStatement(sql);
+		this.pst.setString(1, parentBean.get(parentBean.fieldsList().get(0)));
+		this.pst.setString(2, childBean.get(childBean.fieldsList().get(0)));
+		int result = this.pst.executeUpdate();
+		this.closeConnection();
+		return (result == 1) ? true : false;
+	}
+	
+	public boolean deleteBeanRelationship(Bean parentBean, Bean childBean)
+			throws SQLException {
+		this.openConnection();
+		String sql = "DELETE FROM " + parentBean.relationship + "  WHERE id_"
+				+ parentBean.identifier + " = ? AND id_" + childBean.identifier
+				+ " = ?";
 		this.pst = this.conn.prepareStatement(sql);
 		this.pst.setString(1, parentBean.get(parentBean.fieldsList().get(0)));
 		this.pst.setString(2, childBean.get(childBean.fieldsList().get(0)));
