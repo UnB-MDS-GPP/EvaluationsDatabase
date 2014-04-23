@@ -130,6 +130,72 @@ public class Evaluation extends Bean {
 		fields.add("artistic_production");
 		return fields;
 	}
+	
+	public boolean save() throws ClassNotFoundException, SQLException {
+		boolean result = false;
+		GenericBeanDAO gDB = new GenericBeanDAO();
+		result = gDB.insertBean(this);
+		this.setId(Evaluation.last().getId());
+		return result;
+	}
+
+	public static Evaluation get(Integer id) throws ClassNotFoundException, SQLException {
+		Evaluation result = new Evaluation(id);
+		GenericBeanDAO gDB = new GenericBeanDAO();
+		result = (Evaluation) gDB.selectBean(result);
+		return result;
+	}
+
+	public static ArrayList<Evaluation> getAll()
+			throws ClassNotFoundException, SQLException {
+		Evaluation type = new Evaluation();
+		ArrayList<Evaluation> result = new ArrayList<Evaluation>();
+		GenericBeanDAO gDB = new GenericBeanDAO();
+		for (Bean b : gDB.selectAllBeans(type)) {
+			result.add((Evaluation) b);
+		}
+		return result;
+	}
+
+	public static Integer count() throws ClassNotFoundException, SQLException {
+		Evaluation type = new Evaluation();
+		GenericBeanDAO gDB = new GenericBeanDAO();
+		return gDB.countBean(type);
+	}
+
+	public static Evaluation first() throws ClassNotFoundException,
+			SQLException {
+		Evaluation result = new Evaluation();
+		GenericBeanDAO gDB = new GenericBeanDAO();
+		result = (Evaluation) gDB.firstOrLastBean(result, false);
+		return result;
+	}
+
+	public static Evaluation last() throws ClassNotFoundException,
+			SQLException {
+		Evaluation result = new Evaluation();
+		GenericBeanDAO gDB = new GenericBeanDAO();
+		result = (Evaluation) gDB.firstOrLastBean(result, true);
+		return result;
+	}
+
+	public static ArrayList<Evaluation> getWhere(String field, String value, boolean like) 
+			throws ClassNotFoundException, SQLException {
+		Evaluation type = new Evaluation();
+		ArrayList<Evaluation> result = new ArrayList<Evaluation>();
+		GenericBeanDAO gDB = new GenericBeanDAO();
+		for (Bean b : gDB.selectBeanWhere(type, field, value, like)) {
+			result.add((Evaluation) b);
+		}
+		return result;
+	}
+	
+	public boolean delete() throws ClassNotFoundException, SQLException {
+		boolean result = false;
+		GenericBeanDAO gDB = new GenericBeanDAO();
+		result = gDB.deleteBean(this);
+		return result;
+	}
 
 	public Integer getId() {
 		return id;
