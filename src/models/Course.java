@@ -20,13 +20,6 @@ public class Course extends Bean{
 		this.relationship = "courses_institutions";
 	}
 	
-	public Course(Integer id, String name) {
-		this.id = id;
-		this.name = name;
-		this.identifier= "course";
-		this.relationship = "courses_institutions";
-	}
-	
 	public int getId() {
 		return id;
 	}
@@ -50,6 +43,14 @@ public class Course extends Bean{
 		this.setId(Course.last().getId());
 		return result;
 	}
+	
+	public boolean addInstitution(Institution institution) throws ClassNotFoundException, SQLException {
+		boolean result = false;
+		GenericBeanDAO gDB = new GenericBeanDAO();
+		result = gDB.addBeanRelationship(this, institution);
+		return result;
+	}
+
 
 	public static Course get(Integer id) throws ClassNotFoundException,
 			SQLException {
@@ -116,6 +117,9 @@ public class Course extends Bean{
 	public boolean delete() throws ClassNotFoundException, SQLException {
 		boolean result = false;
 		GenericBeanDAO gDB = new GenericBeanDAO();
+		for(Institution i : this.getInstitutions()){
+			gDB.deleteBeanRelationship(this,i);
+		}
 		result = gDB.deleteBean(this);
 		return result;
 	}
