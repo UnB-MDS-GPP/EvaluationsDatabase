@@ -115,4 +115,16 @@ public class TestEvaluation {
 		course.delete();
 		evaluation.delete();
 	}
+	
+	@Test
+	public void shouldGetEvaluationOnDataBase() throws ClassNotFoundException, SQLException{
+		
+		Evaluation evaluation_1 = new Evaluation();
+		evaluation_1.setYear(Integer.parseInt("2014"));
+		evaluation_1.save();
+		
+		Evaluation evaluation_2 = Evaluation.get(Evaluation.last().getId());
+		assertEquals(evaluation_1.getYear(), evaluation_2.getYear());
+		evaluation_1.delete();
+	}
 }
