@@ -81,6 +81,7 @@ public class TestEvaluation {
 		Evaluation evaluation = new Evaluation();
 		evaluation.setIdInstitution(institution.getId());
 		evaluation.setIdCourse(course.getId());
+		evaluation.setYear(Integer.parseInt("2000"));
 		
 		assertEquals(true, evaluation.save());
 		assertEquals(initialCount, Evaluation.count()-1);
@@ -90,4 +91,28 @@ public class TestEvaluation {
 		evaluation.delete();
 	}
 	
+	@Test
+	public void shouldCountEvaluationsOnDataBase() throws ClassNotFoundException, SQLException{
+		int initialCount = Evaluation.count();
+		
+		Institution institution = new Institution();
+		institution.setAcronym("acronym");
+		institution.save();
+		
+		Course course = new Course();
+		course.setName("name course");
+		course.save();
+		
+		Evaluation evaluation = new Evaluation();
+		evaluation.setIdInstitution(institution.getId());
+		evaluation.setIdCourse(course.getId());
+		evaluation.setYear(Integer.parseInt("2000"));
+		evaluation.save();
+		assertEquals(initialCount+1, (int)Evaluation.count());
+		assertEquals(Evaluation.getAll().size(), (int)Evaluation.count());
+		
+		institution.delete();
+		course.delete();
+		evaluation.delete();
+	}
 }
