@@ -16,6 +16,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.sun.corba.se.spi.legacy.connection.GetEndPointInfoAgainException;
+
 public class TestEvaluation {
 
 	@BeforeClass
@@ -152,25 +154,16 @@ public class TestEvaluation {
 	@Test
 	public void shouldCountEvaluationsOnDataBase() throws ClassNotFoundException, SQLException{
 		int initialCount = Evaluation.count();
-		
-		Institution institution = new Institution();
-		institution.setAcronym("acronym");
-		institution.save();
-		
-		Course course = new Course();
-		course.setName("name course");
-		course.save();
-		
+	
 		Evaluation evaluation = new Evaluation();
-		evaluation.setIdInstitution(institution.getId());
-		evaluation.setIdCourse(course.getId());
+		evaluation.setYear(2000);
 		evaluation.setModality("modality");
+		evaluation.setMasterDegreeStartYear(1);
 		evaluation.save();
+		
 		assertEquals(initialCount+1, (int)Evaluation.count());
 		assertEquals(Evaluation.getAll().size(), (int)Evaluation.count());
 		
-		institution.delete();
-		course.delete();
 		evaluation.delete();
 	}
 	
@@ -178,11 +171,16 @@ public class TestEvaluation {
 	public void shouldGetEvaluationOnDataBase() throws ClassNotFoundException, SQLException{
 		
 		Evaluation evaluation_1 = new Evaluation();
-		evaluation_1.setModality("modality");
+		evaluation_1.setDoctorateStartYear(1);
+		evaluation_1.setTriennialEvaluation(2);
+		evaluation_1.setPermanentTeachers(3);
 		evaluation_1.save();
 		
 		Evaluation evaluation_2 = Evaluation.get(Evaluation.last().getId());
-		assertEquals(evaluation_1.getYear(), evaluation_2.getYear());
+		assertEquals(evaluation_1.getDoctorateStartYear(), evaluation_2.getDoctorateStartYear());
+		assertEquals(evaluation_1.getTriennialEvaluation(), evaluation_2.getTriennialEvaluation());
+		assertEquals(evaluation_1.getPermanentTeachers(), evaluation_2.getPermanentTeachers());
+		
 		evaluation_1.delete();
 	}
 	
@@ -190,6 +188,8 @@ public class TestEvaluation {
 	public void shouldGetAllEvaluationsOnDataBase() throws ClassNotFoundException, SQLException {
 		int total = Evaluation.count();
 		assertEquals(total, Evaluation.getAll().size());
+		assertEquals(Evaluation.first().getTheses(), Evaluation.getAll().get(0).getTheses());
+		assertEquals(Evaluation.first().getDissertations(), Evaluation.getAll().get(0).getDissertations());
 	}
 	
 	@Test
