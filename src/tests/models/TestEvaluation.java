@@ -1,6 +1,10 @@
 package tests.models;
 
 import static org.junit.Assert.*;
+
+import java.sql.SQLException;
+
+import jdk.internal.org.objectweb.asm.tree.IntInsnNode;
 import libraries.DataBaseStructures;
 import models.Article;
 import models.Book;
@@ -24,12 +28,15 @@ public class TestEvaluation {
 		
 		Course course = new Course();
 		course.setName("name course");
+		course.save();
 		
 		Article article = new Article();
 		article.setInternationals(Integer.parseInt("1"));
+		article.save();
 		
 		Book book = new Book();
 		book.setIntegralText(Integer.parseInt("1"));
+		book.save();
 		
 		Evaluation evaluation = new Evaluation();
 		evaluation.setIdInstitution(institution.getId());
@@ -51,11 +58,36 @@ public class TestEvaluation {
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
+		DataBaseStructures db = new DataBaseStructures();
+		db.dropDB();
 	}
 
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void test() throws Exception {
 	}
-
+	
+	@Test
+	public void shouldCreateNewEvaluationOnDataBase() throws ClassNotFoundException, SQLException{
+		int initialCount = Evaluation.count();
+		
+		Institution institution = new Institution();
+		institution.setAcronym("acronym");
+		institution.save();
+		
+		Course course = new Course();
+		course.setName("name course");
+		course.save();
+		
+		Evaluation evaluation = new Evaluation();
+		evaluation.setIdInstitution(institution.getId());
+		evaluation.setIdCourse(course.getId());
+		
+		assertEquals(true, evaluation.save());
+		assertEquals(initialCount, Evaluation.count()-1);
+		
+		institution.delete();
+		course.delete();
+		evaluation.delete();
+	}
+	
 }
