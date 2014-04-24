@@ -106,7 +106,7 @@ public class TestEvaluation {
 		Evaluation evaluation = new Evaluation();
 		evaluation.setIdInstitution(institution.getId());
 		evaluation.setIdCourse(course.getId());
-		evaluation.setYear(Integer.parseInt("2000"));
+		evaluation.setModality("modality");
 		evaluation.save();
 		assertEquals(initialCount+1, (int)Evaluation.count());
 		assertEquals(Evaluation.getAll().size(), (int)Evaluation.count());
@@ -120,11 +120,24 @@ public class TestEvaluation {
 	public void shouldGetEvaluationOnDataBase() throws ClassNotFoundException, SQLException{
 		
 		Evaluation evaluation_1 = new Evaluation();
-		evaluation_1.setYear(Integer.parseInt("2014"));
+		evaluation_1.setModality("modality");
 		evaluation_1.save();
 		
 		Evaluation evaluation_2 = Evaluation.get(Evaluation.last().getId());
 		assertEquals(evaluation_1.getYear(), evaluation_2.getYear());
 		evaluation_1.delete();
 	}
+	
+	@Test
+	public void shouldGetAllEvaluationsOnDataBase() throws ClassNotFoundException, SQLException {
+		int total = Evaluation.count();
+		assertEquals(total, Evaluation.getAll().size());
+	}
+	
+	@Test
+	public void shouldGetTheFirstEvaluationOnDataBase() throws ClassNotFoundException, SQLException {
+		Evaluation firstEvaluation = Evaluation.first();
+		assertEquals(firstEvaluation.getModality(), Evaluation.getAll().get(0).getModality());
+	}
+	
 }
