@@ -63,8 +63,8 @@ public class TestArticle {
 		article.setArticlesPublishedConferenceProceedings(Integer.parseInt("0"));
 		article.save();
 		
-		assertEquals(initialCount+1, (int)Article.count());
-		assertEquals(Article.getAll().size(), (int)Article.count());
+		assertEquals(initialCount+1, Article.count());
+		assertEquals(Article.getAll().size(), Article.count());
 		article.delete();
 	}
 

@@ -72,7 +72,7 @@ public class Article extends Bean {
 		return result;
 	}
 
-	public static Integer count() throws ClassNotFoundException, SQLException {
+	public static int count() throws ClassNotFoundException, SQLException {
 		Article type = new Article();
 		GenericBeanDAO gDB = new GenericBeanDAO();
 		return gDB.countBean(type);
