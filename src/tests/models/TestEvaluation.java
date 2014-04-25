@@ -3,6 +3,7 @@ package tests.models;
 import static org.junit.Assert.*;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import jdk.internal.org.objectweb.asm.tree.IntInsnNode;
 import libraries.DataBaseStructures;
@@ -196,6 +197,27 @@ public class TestEvaluation {
 	public void shouldGetTheFirstEvaluationOnDataBase() throws ClassNotFoundException, SQLException {
 		Evaluation firstEvaluation = Evaluation.first();
 		assertEquals(firstEvaluation.getModality(), Evaluation.getAll().get(0).getModality());
+	}
+	
+	@Test
+	public void shouldGetEvaluationsWithWhereOnDataBase() throws ClassNotFoundException, SQLException{
+		Evaluation evaluation1 = new Evaluation();
+		evaluation1.setModality("Moda Test");
+		evaluation1.save();
+		
+		Evaluation evaluation2 = new Evaluation();
+		evaluation2.setModality("Moda ABC");
+		evaluation2.save();
+		
+		ArrayList<Evaluation> evaluations_1 = Evaluation.getWhere("Modality", "Moda", true);
+		ArrayList<Evaluation> evaluations_2 = Evaluation.getWhere("Modality", "Test", true);
+		ArrayList<Evaluation> evaluations_3 = Evaluation.getWhere("Modality", "Moda Test", false);
+		
+		assertEquals(2, evaluations_1.size());
+		assertEquals(1, evaluations_2.size());
+		assertEquals(1, evaluations_3.size());
+		evaluation1.delete();
+		evaluation2.delete();
 	}
 	
 }
