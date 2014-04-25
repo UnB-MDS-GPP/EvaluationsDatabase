@@ -5,21 +5,21 @@ import java.util.ArrayList;
 
 public class Evaluation extends Bean {
 
-	private Integer id;
-	private Integer idInstitution;
-	private Integer idCourse;
-	private Integer year;
+	private int id;
+	private int idInstitution;
+	private int idCourse;
+	private int year;
 	private String modality;
-	private Integer masterDegreeStartYear;
-	private Integer doctorateStartYear;
-	private Integer triennialEvaluation;
-	private Integer permanentTeachers;
-	private Integer theses;
-	private Integer dissertations;
-	private Integer idArticles;
-	private Integer idBooks;
-	private Integer publishedWorks;
-	private Integer artisticProduction;
+	private int masterDegreeStartYear;
+	private int doctorateStartYear;
+	private int triennialEvaluation;
+	private int permanentTeachers;
+	private int theses;
+	private int dissertations;
+	private int idArticles;
+	private int idBooks;
+	private int publishedWorks;
+	private int artisticProduction;
 
 	public Evaluation() {
 		this.id = 0;
@@ -28,7 +28,7 @@ public class Evaluation extends Bean {
 
 	}
 
-	public Evaluation(Integer id) {
+	public Evaluation(int id) {
 		this.id = id;
 		this.identifier = "evaluation";
 		this.relationship = "";
@@ -139,7 +139,7 @@ public class Evaluation extends Bean {
 		return result;
 	}
 
-	public static Evaluation get(Integer id) throws ClassNotFoundException, SQLException {
+	public static Evaluation get(int id) throws ClassNotFoundException, SQLException {
 		Evaluation result = new Evaluation(id);
 		GenericBeanDAO gDB = new GenericBeanDAO();
 		result = (Evaluation) gDB.selectBean(result);
@@ -157,7 +157,7 @@ public class Evaluation extends Bean {
 		return result;
 	}
 
-	public static Integer count() throws ClassNotFoundException, SQLException {
+	public static int count() throws ClassNotFoundException, SQLException {
 		Evaluation type = new Evaluation();
 		GenericBeanDAO gDB = new GenericBeanDAO();
 		return gDB.countBean(type);
@@ -197,35 +197,35 @@ public class Evaluation extends Bean {
 		return result;
 	}
 
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
-	public Integer getIdInstitution() {
+	public int getIdInstitution() {
 		return idInstitution;
 	}
 
-	public void setIdInstitution(Integer idInstitution) {
+	public void setIdInstitution(int idInstitution) {
 		this.idInstitution = idInstitution;
 	}
 
-	public Integer getIdCourse() {
+	public int getIdCourse() {
 		return idCourse;
 	}
 
-	public void setIdCourse(Integer idCourse) {
+	public void setIdCourse(int idCourse) {
 		this.idCourse = idCourse;
 	}
 
-	public Integer getYear() {
+	public int getYear() {
 		return year;
 	}
 
-	public void setYear(Integer year) {
+	public void setYear(int year) {
 		this.year = year;
 	}
 
@@ -237,83 +237,83 @@ public class Evaluation extends Bean {
 		this.modality = modality;
 	}
 
-	public Integer getMasterDegreeStartYear() {
+	public int getMasterDegreeStartYear() {
 		return masterDegreeStartYear;
 	}
 
-	public void setMasterDegreeStartYear(Integer masterDegreeStartYear) {
+	public void setMasterDegreeStartYear(int masterDegreeStartYear) {
 		this.masterDegreeStartYear = masterDegreeStartYear;
 	}
 
-	public Integer getDoctorateStartYear() {
+	public int getDoctorateStartYear() {
 		return doctorateStartYear;
 	}
 
-	public void setDoctorateStartYear(Integer doctorateStartYear) {
+	public void setDoctorateStartYear(int doctorateStartYear) {
 		this.doctorateStartYear = doctorateStartYear;
 	}
 
-	public Integer getTriennialEvaluation() {
+	public int getTriennialEvaluation() {
 		return triennialEvaluation;
 	}
 
-	public void setTriennialEvaluation(Integer triennialEvaluation) {
+	public void setTriennialEvaluation(int triennialEvaluation) {
 		this.triennialEvaluation = triennialEvaluation;
 	}
 
-	public Integer getPermanentTeachers() {
+	public int getPermanentTeachers() {
 		return permanentTeachers;
 	}
 
-	public void setPermanentTeachers(Integer permanentTeachers) {
+	public void setPermanentTeachers(int permanentTeachers) {
 		this.permanentTeachers = permanentTeachers;
 	}
 
-	public Integer getTheses() {
+	public int getTheses() {
 		return theses;
 	}
 
-	public void setTheses(Integer theses) {
+	public void setTheses(int theses) {
 		this.theses = theses;
 	}
 
-	public Integer getDissertations() {
+	public int getDissertations() {
 		return dissertations;
 	}
 
-	public void setDissertations(Integer dissertations) {
+	public void setDissertations(int dissertations) {
 		this.dissertations = dissertations;
 	}
 
-	public Integer getIdArticles() {
+	public int getIdArticles() {
 		return idArticles;
 	}
 
-	public void setIdArticles(Integer idArticles) {
+	public void setIdArticles(int idArticles) {
 		this.idArticles = idArticles;
 	}
 
-	public Integer getIdBooks() {
+	public int getIdBooks() {
 		return idBooks;
 	}
 
-	public void setIdBooks(Integer idBooks) {
+	public void setIdBooks(int idBooks) {
 		this.idBooks = idBooks;
 	}
 
-	public Integer getPublishedWorks() {
+	public int getPublishedWorks() {
 		return publishedWorks;
 	}
 
-	public void setPublishedWorks(Integer publishedWorks) {
+	public void setPublishedWorks(int publishedWorks) {
 		this.publishedWorks = publishedWorks;
 	}
 
-	public Integer getArtisticProduction() {
+	public int getArtisticProduction() {
 		return artisticProduction;
 	}
 
-	public void setArtisticProduction(Integer artisticProduction) {
+	public void setArtisticProduction(int artisticProduction) {
 		this.artisticProduction = artisticProduction;
 	}
 

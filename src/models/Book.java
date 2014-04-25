@@ -4,11 +4,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Book extends Bean {
-	private Integer id;
-	private Integer integralText;
-	private Integer chapters;
-	private Integer collections;
-	private Integer entries;
+	private int id;
+	private int integralText;
+	private int chapters;
+	private int collections;
+	private int entries;
 
 	public Book() {
 		this.id = 0;
@@ -16,49 +16,49 @@ public class Book extends Bean {
 		this.relationship = "";
 	}
 
-	public Book(Integer id) {
+	public Book(int id) {
 		this.id = id;
 		this.identifier = "books";
 		this.relationship = "";
 	}
 
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
-	public Integer getIntegralText() {
+	public int getIntegralText() {
 		return integralText;
 	}
 
-	public void setIntegralText(Integer integralText) {
+	public void setIntegralText(int integralText) {
 		this.integralText = integralText;
 	}
 
-	public Integer getChapters() {
+	public int getChapters() {
 		return chapters;
 	}
 
-	public void setChapters(Integer chapters) {
+	public void setChapters(int chapters) {
 		this.chapters = chapters;
 	}
 
-	public Integer getCollections() {
+	public int getCollections() {
 		return collections;
 	}
 
-	public void setCollections(Integer collections) {
+	public void setCollections(int collections) {
 		this.collections = collections;
 	}
 
-	public Integer getEntries() {
+	public int getEntries() {
 		return entries;
 	}
 
-	public void setEntries(Integer entries) {
+	public void setEntries(int entries) {
 		this.entries = entries;
 	}
 
@@ -70,7 +70,7 @@ public class Book extends Bean {
 		return result;
 	}
 
-	public static Book get(Integer id) throws ClassNotFoundException, SQLException {
+	public static Book get(int id) throws ClassNotFoundException, SQLException {
 		Book result = new Book(id);
 		GenericBeanDAO gDB = new GenericBeanDAO();
 		result = (Book) gDB.selectBean(result);
@@ -88,7 +88,7 @@ public class Book extends Bean {
 		return result;
 	}
 
-	public static Integer count() throws ClassNotFoundException, SQLException {
+	public static int count() throws ClassNotFoundException, SQLException {
 		Book type = new Book();
 		GenericBeanDAO gDB = new GenericBeanDAO();
 		return gDB.countBean(type);

@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Institution extends Bean {
-	private Integer id;
+	private int id;
 	private String acronym;
 
 	public Institution() {
@@ -13,7 +13,7 @@ public class Institution extends Bean {
 		this.relationship = "courses_institutions";
 	}
 
-	public Institution(Integer id) {
+	public Institution(int id) {
 		this.id = id;
 		this.identifier = "institution";
 		this.relationship = "courses_institutions";
@@ -27,11 +27,11 @@ public class Institution extends Bean {
 		this.acronym = acronym;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
 
@@ -50,7 +50,7 @@ public class Institution extends Bean {
 		return result;
 	}
 
-	public static Institution get(Integer id) throws ClassNotFoundException,
+	public static Institution get(int id) throws ClassNotFoundException,
 			SQLException {
 		Institution result = new Institution(id);
 		GenericBeanDAO gDB = new GenericBeanDAO();
@@ -69,7 +69,7 @@ public class Institution extends Bean {
 		return result;
 	}
 
-	public static Integer count() throws ClassNotFoundException, SQLException {
+	public static int count() throws ClassNotFoundException, SQLException {
 		Institution type = new Institution();
 		GenericBeanDAO gDB = new GenericBeanDAO();
 		return gDB.countBean(type);

@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.sql.SQLException;
 
-import jdk.internal.org.objectweb.asm.tree.IntInsnNode;
 import libraries.DataBaseStructures;
 import models.Article;
 import models.Book;
@@ -31,11 +30,11 @@ public class TestEvaluation {
 		course.save();
 		
 		Article article = new Article();
-		article.setInternationals(Integer.parseInt("1"));
+		article.setArticlesPublishedJournals(1);
 		article.save();
 		
 		Book book = new Book();
-		book.setIntegralText(Integer.parseInt("1"));
+		book.setIntegralText(1);
 		book.save();
 		
 		Evaluation evaluation = new Evaluation();
@@ -61,10 +60,6 @@ public class TestEvaluation {
 		DataBaseStructures db = new DataBaseStructures();
 		db.dropDB();
 	}
-
-	@Test
-	public void test() throws Exception {
-	}
 	
 	@Test
 	public void shouldCreateNewEvaluationOnDataBase() throws ClassNotFoundException, SQLException{
@@ -81,6 +76,7 @@ public class TestEvaluation {
 		Evaluation evaluation = new Evaluation();
 		evaluation.setIdInstitution(institution.getId());
 		evaluation.setIdCourse(course.getId());
+		evaluation.setModality("modality");
 		evaluation.setYear(Integer.parseInt("2000"));
 		
 		assertEquals(true, evaluation.save());

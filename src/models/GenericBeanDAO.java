@@ -257,6 +257,10 @@ public class GenericBeanDAO extends DataBaseConnection {
 			object = new Article();
 		}
 		
+		else if (beanIdentifier.equals("evaluation")) {
+			object = new Evaluation();
+		}
+		
 		return object;
 	}
 
