@@ -200,6 +200,13 @@ public class TestEvaluation {
 	}
 	
 	@Test
+	public void shouldGetTheLastEvaluationOnDataBase() throws ClassNotFoundException, SQLException {
+		Evaluation lastEvaluation = Evaluation.last();
+		assertEquals(lastEvaluation.getPublishedWorks(), Evaluation.getAll().get(1).getPublishedWorks());
+		assertEquals(lastEvaluation.getArtisticProduction(), Evaluation.getAll().get(1).getArtisticProduction());
+	}
+	
+	@Test
 	public void shouldGetEvaluationsWithWhereOnDataBase() throws ClassNotFoundException, SQLException{
 		Evaluation evaluation1 = new Evaluation();
 		evaluation1.setModality("Moda Test");
