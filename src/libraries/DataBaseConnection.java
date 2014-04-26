@@ -13,7 +13,7 @@ public abstract class DataBaseConnection {
 
     public DataBaseConnection() throws SQLException, ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
-        this.dataBaseName = "jdbc:sqlite:test.sqlite3.db";
+        this.dataBaseName = "jdbc:sqlite:database.sqlite3.db";
         SQLiteConfig config = new SQLiteConfig();
 		config.enforceForeignKeys(true);
         connectionProperties = config.toProperties();
