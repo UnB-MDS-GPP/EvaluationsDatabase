@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 
 public class Course extends Bean{
-	private Integer id;
+	private int id;
 	private String name;
 
 	public Course() {
@@ -14,7 +14,7 @@ public class Course extends Bean{
 		this.relationship = "courses_institutions";
 	}
 	
-	public Course(Integer id){
+	public Course(int id){
 		this.id = id;
 		this.identifier= "course";
 		this.relationship = "courses_institutions";
@@ -24,7 +24,7 @@ public class Course extends Bean{
 		return id;
 	}
 	
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	
@@ -52,7 +52,7 @@ public class Course extends Bean{
 	}
 
 
-	public static Course get(Integer id) throws ClassNotFoundException,
+	public static Course get(int id) throws ClassNotFoundException,
 			SQLException {
 		Course result = new Course(id);
 		GenericBeanDAO gDB = new GenericBeanDAO();
@@ -71,7 +71,7 @@ public class Course extends Bean{
 		return result;
 	}
 
-	public static Integer count() throws ClassNotFoundException, SQLException {
+	public static int count() throws ClassNotFoundException, SQLException {
 		Course type = new Course();
 		GenericBeanDAO gDB = new GenericBeanDAO();
 		return gDB.countBean(type);

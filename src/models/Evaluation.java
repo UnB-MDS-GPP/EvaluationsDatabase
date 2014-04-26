@@ -6,46 +6,196 @@ import java.util.ArrayList;
 public class Evaluation extends Bean {
 
 	private int id;
-	private int id_institution;
+	private int idInstitution;
+	private int idCourse;
 	private int year;
 	private String modality;
-	private int master_degree_start_year;
-	private int doctorate_start_yaear;
-	private int triennial_evaluation;
-	private int permanent_teachers;
+	private int masterDegreeStartYear;
+	private int doctorateStartYear;
+	private int triennialEvaluation;
+	private int permanentTeachers;
 	private int theses;
 	private int dissertations;
-	private int id_articles;
-	private int id_books;
-	private int published_works;
-	private int artistic_production;
+	private int idArticles;
+	private int idBooks;
+	private int publishedWorks;
+	private int artisticProduction;
 
 	public Evaluation() {
-		// TODO Auto-generated constructor stub
+		this.id = 0;
+		this.identifier = "evaluation";
+		this.relationship = "";
+
 	}
 
-	public Evaluation(int id, int id_institution, int year, String modality,
-			int master_degree_start_year, int doctorate_start_yaear,
-			int triennial_evaluation, int permanent_teachers, int theses,
-			int dissertations, int id_articles, int id_books,
-			int published_works, int artistic_production) {
+	public Evaluation(int id) {
+		this.id = id;
+		this.identifier = "evaluation";
+		this.relationship = "";
+	}
+
+	@Override
+	public String get(String field) {
+		if (field.equals("id")) {
+			return Integer.toString(this.getId());
+		} else if (field.equals("id_institution")) {
+			return Integer.toString(this.getIdInstitution());
+		} else if (field.equals("id_course")) {
+			return Integer.toString(this.getIdCourse());
+		} else if (field.equals("year")) {
+			return Integer.toString(this.getYear());
+		} else if (field.equals("modality")) {
+			return getModality();
+		} else if (field.equals("master_degree_start_year")) {
+			return Integer.toString(this.getMasterDegreeStartYear());
+		} else if (field.equals("doctorate_start_year")) {
+			return Integer.toString(this.getDoctorateStartYear());
+		} else if (field.equals("triennial_evaluation")) {
+			return Integer.toString(this.getTriennialEvaluation());
+		} else if (field.equals("permanent_teachers")) {
+			return Integer.toString(this.getPermanentTeachers());
+		} else if (field.equals("theses")) {
+			return Integer.toString(this.getTheses());
+		} else if (field.equals("dissertations")) {
+			return Integer.toString(this.getDissertations());
+		} else if (field.equals("id_articles")) {
+			return Integer.toString(this.getIdArticles());
+		} else if (field.equals("id_books")) {
+			return Integer.toString(this.getIdBooks());
+		} else if (field.equals("published_works")) {
+			return Integer.toString(this.getPublishedWorks());
+		} else if (field.equals("artistic_production")) {
+			return Integer.toString(this.getArtisticProduction());
+		} else
+			return "";
+
+	}
+
+	@Override
+	public void set(String field, String data){
+		if (field.equals("id")) {
+			this.setId(Integer.parseInt(data));
+		} else if (field.equals("id_institution")) {
+			this.setIdInstitution(Integer.parseInt(data));
+		} else if (field.equals("id_course")) {
+			this.setIdCourse(Integer.parseInt(data));
+		} else if (field.equals("year")) {
+			this.setYear(Integer.parseInt(data));
+		} else if (field.equals("modality")) {
+			this.setModality(data);
+		} else if (field.equals("master_degree_start_year")) {
+			this.setMasterDegreeStartYear(Integer.parseInt(data));
+		} else if (field.equals("doctorate_start_year")) {
+			this.setDoctorateStartYear(Integer.parseInt(data));
+		} else if (field.equals("triennial_evaluation")) {
+			this.setTriennialEvaluation(Integer.parseInt(data));
+		} else if (field.equals("permanent_teachers")) {
+			this.setPermanentTeachers(Integer.parseInt(data));
+		} else if (field.equals("theses")) {
+			this.setTheses(Integer.parseInt(data));
+		} else if (field.equals("dissertations")) {
+			this.setDissertations(Integer.parseInt(data));
+		} else if (field.equals("id_articles")) {
+			this.setIdArticles(Integer.parseInt(data));
+		} else if (field.equals("id_books")) {
+			this.setIdBooks(Integer.parseInt(data));
+		} else if (field.equals("published_works")) {
+			this.setPublishedWorks(Integer.parseInt(data));
+		} else if (field.equals("artistic_production")) {
+			this.setArtisticProduction(Integer.parseInt(data));
+		} else{
+			
+		}
 		
-		this.id = 0;
-		this.id_institution = id_institution;
-		this.year = year;
-		this.modality = modality;
-		this.master_degree_start_year = master_degree_start_year;
-		this.doctorate_start_yaear = doctorate_start_yaear;
-		this.triennial_evaluation = triennial_evaluation;
-		this.permanent_teachers = permanent_teachers;
-		this.theses = theses;
-		this.dissertations = dissertations;
-		this.id_articles = id_articles;
-		this.id_books = id_books;
-		this.published_works = published_works;
-		this.artistic_production = artistic_production;
+
+	}
+
+	@Override
+	public ArrayList<String> fieldsList() {
+		ArrayList<String> fields = new ArrayList<String>();
+		fields.add("id");
+		fields.add("id_institution");
+		fields.add("id_course");
+		fields.add("year");
+		fields.add("modality");
+		fields.add("master_degree_start_year");
+		fields.add("doctorate_start_year");
+		fields.add("triennial_evaluation");
+		fields.add("permanent_teachers");
+		fields.add("theses");
+		fields.add("dissertations");
+		fields.add("id_articles");
+		fields.add("id_books");
+		fields.add("published_works");
+		fields.add("artistic_production");
+		return fields;
 	}
 	
+	public boolean save() throws ClassNotFoundException, SQLException {
+		boolean result = false;
+		GenericBeanDAO gDB = new GenericBeanDAO();
+		result = gDB.insertBean(this);
+		this.setId(Evaluation.last().getId());
+		return result;
+	}
+
+	public static Evaluation get(int id) throws ClassNotFoundException, SQLException {
+		Evaluation result = new Evaluation(id);
+		GenericBeanDAO gDB = new GenericBeanDAO();
+		result = (Evaluation) gDB.selectBean(result);
+		return result;
+	}
+
+	public static ArrayList<Evaluation> getAll()
+			throws ClassNotFoundException, SQLException {
+		Evaluation type = new Evaluation();
+		ArrayList<Evaluation> result = new ArrayList<Evaluation>();
+		GenericBeanDAO gDB = new GenericBeanDAO();
+		for (Bean b : gDB.selectAllBeans(type)) {
+			result.add((Evaluation) b);
+		}
+		return result;
+	}
+
+	public static int count() throws ClassNotFoundException, SQLException {
+		Evaluation type = new Evaluation();
+		GenericBeanDAO gDB = new GenericBeanDAO();
+		return gDB.countBean(type);
+	}
+
+	public static Evaluation first() throws ClassNotFoundException,
+			SQLException {
+		Evaluation result = new Evaluation();
+		GenericBeanDAO gDB = new GenericBeanDAO();
+		result = (Evaluation) gDB.firstOrLastBean(result, false);
+		return result;
+	}
+
+	public static Evaluation last() throws ClassNotFoundException,
+			SQLException {
+		Evaluation result = new Evaluation();
+		GenericBeanDAO gDB = new GenericBeanDAO();
+		result = (Evaluation) gDB.firstOrLastBean(result, true);
+		return result;
+	}
+
+	public static ArrayList<Evaluation> getWhere(String field, String value, boolean like) 
+			throws ClassNotFoundException, SQLException {
+		Evaluation type = new Evaluation();
+		ArrayList<Evaluation> result = new ArrayList<Evaluation>();
+		GenericBeanDAO gDB = new GenericBeanDAO();
+		for (Bean b : gDB.selectBeanWhere(type, field, value, like)) {
+			result.add((Evaluation) b);
+		}
+		return result;
+	}
+	
+	public boolean delete() throws ClassNotFoundException, SQLException {
+		boolean result = false;
+		GenericBeanDAO gDB = new GenericBeanDAO();
+		result = gDB.deleteBean(this);
+		return result;
+	}
 
 	public int getId() {
 		return id;
@@ -55,12 +205,20 @@ public class Evaluation extends Bean {
 		this.id = id;
 	}
 
-	public int getId_institution() {
-		return id_institution;
+	public int getIdInstitution() {
+		return idInstitution;
 	}
 
-	public void setId_institution(int id_institution) {
-		this.id_institution = id_institution;
+	public void setIdInstitution(int idInstitution) {
+		this.idInstitution = idInstitution;
+	}
+
+	public int getIdCourse() {
+		return idCourse;
+	}
+
+	public void setIdCourse(int idCourse) {
+		this.idCourse = idCourse;
 	}
 
 	public int getYear() {
@@ -79,36 +237,36 @@ public class Evaluation extends Bean {
 		this.modality = modality;
 	}
 
-	public int getMaster_degree_start_year() {
-		return master_degree_start_year;
+	public int getMasterDegreeStartYear() {
+		return masterDegreeStartYear;
 	}
 
-	public void setMaster_degree_start_year(int master_degree_start_year) {
-		this.master_degree_start_year = master_degree_start_year;
+	public void setMasterDegreeStartYear(int masterDegreeStartYear) {
+		this.masterDegreeStartYear = masterDegreeStartYear;
 	}
 
-	public int getDoctorate_start_yaear() {
-		return doctorate_start_yaear;
+	public int getDoctorateStartYear() {
+		return doctorateStartYear;
 	}
 
-	public void setDoctorate_start_yaear(int doctorate_start_yaear) {
-		this.doctorate_start_yaear = doctorate_start_yaear;
+	public void setDoctorateStartYear(int doctorateStartYear) {
+		this.doctorateStartYear = doctorateStartYear;
 	}
 
-	public int getTriennial_evaluation() {
-		return triennial_evaluation;
+	public int getTriennialEvaluation() {
+		return triennialEvaluation;
 	}
 
-	public void setTriennial_evaluation(int triennial_evaluation) {
-		this.triennial_evaluation = triennial_evaluation;
+	public void setTriennialEvaluation(int triennialEvaluation) {
+		this.triennialEvaluation = triennialEvaluation;
 	}
 
-	public int getPermanent_teachers() {
-		return permanent_teachers;
+	public int getPermanentTeachers() {
+		return permanentTeachers;
 	}
 
-	public void setPermanent_teachers(int permanent_teachers) {
-		this.permanent_teachers = permanent_teachers;
+	public void setPermanentTeachers(int permanentTeachers) {
+		this.permanentTeachers = permanentTeachers;
 	}
 
 	public int getTheses() {
@@ -127,54 +285,36 @@ public class Evaluation extends Bean {
 		this.dissertations = dissertations;
 	}
 
-	public int getId_articles() {
-		return id_articles;
+	public int getIdArticles() {
+		return idArticles;
 	}
 
-	public void setId_articles(int id_articles) {
-		this.id_articles = id_articles;
+	public void setIdArticles(int idArticles) {
+		this.idArticles = idArticles;
 	}
 
-	public int getId_books() {
-		return id_books;
+	public int getIdBooks() {
+		return idBooks;
 	}
 
-	public void setId_books(int id_books) {
-		this.id_books = id_books;
+	public void setIdBooks(int idBooks) {
+		this.idBooks = idBooks;
 	}
 
-	public int getPublished_works() {
-		return published_works;
+	public int getPublishedWorks() {
+		return publishedWorks;
 	}
 
-	public void setPublished_works(int published_works) {
-		this.published_works = published_works;
+	public void setPublishedWorks(int publishedWorks) {
+		this.publishedWorks = publishedWorks;
 	}
 
-	public int getArtistic_production() {
-		return artistic_production;
+	public int getArtisticProduction() {
+		return artisticProduction;
 	}
 
-	public void setArtistic_production(int artistic_production) {
-		this.artistic_production = artistic_production;
-	}
-
-	@Override
-	public String get(String field) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void set(String field, String data) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public ArrayList<String> fieldsList() {
-		// TODO Auto-generated method stub
-		return null;
+	public void setArtisticProduction(int artisticProduction) {
+		this.artisticProduction = artisticProduction;
 	}
 
 }

@@ -56,8 +56,8 @@ public class TestInstitution {
 		Institution institution = new Institution();
 		institution.setAcronym("other");
 		institution.save();
-		assertEquals(initialCount+1, (int)Institution.count());
-		assertEquals(Institution.getAll().size(), (int)Institution.count());
+		assertEquals(initialCount+1, Institution.count());
+		assertEquals(Institution.getAll().size(), Institution.count());
 		institution.delete();
 	}
 	

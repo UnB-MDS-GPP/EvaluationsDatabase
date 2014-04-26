@@ -94,7 +94,7 @@ public class TestBook {
 	}
 
 	@Test
-	public void shouldGetAllbookOnDataBase() throws ClassNotFoundException, SQLException {
+	public void shouldGetAllBooksOnDataBase() throws ClassNotFoundException, SQLException {
 		int total = Book.count();
 		assertEquals(total, Book.getAll().size());
 	}

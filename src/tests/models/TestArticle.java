@@ -20,15 +20,13 @@ public class TestArticle {
 		DataBaseStructures db = new DataBaseStructures();
 		db.initDB();
 		Article article = new Article();
-		article.setInternationals(Integer.parseInt("1"));
-		article.setNationals(Integer.parseInt("2"));
-		article.setLocals(Integer.parseInt("0"));
+		article.setArticlesPublishedJournals(Integer.parseInt("1"));
+		article.setArticlesPublishedConferenceProceedings(Integer.parseInt("2"));
 		article.save();
 
 		article = new Article();
-		article.setInternationals(Integer.parseInt("2"));
-		article.setNationals(Integer.parseInt("8"));
-		article.setLocals(Integer.parseInt("5"));
+		article.setArticlesPublishedJournals(Integer.parseInt("2"));
+		article.setArticlesPublishedConferenceProceedings(Integer.parseInt("8"));
 		article.save();
 	}
 
@@ -49,9 +47,8 @@ public class TestArticle {
 		int initialCount = Article.count();
 
 		Article article = new Article();
-		article.setInternationals(Integer.parseInt("0"));
-		article.setNationals(Integer.parseInt("0"));
-		article.setLocals(Integer.parseInt("0"));
+		article.setArticlesPublishedJournals(Integer.parseInt("0"));
+		article.setArticlesPublishedConferenceProceedings(Integer.parseInt("0"));
 
 		assertEquals(true, article.save());
 		assertEquals(initialCount, Article.count()-1);
@@ -62,29 +59,26 @@ public class TestArticle {
 	public void shouldCountArticleOnDataBase() throws ClassNotFoundException, SQLException {
 		int initialCount = Article.count();
 		Article article = new Article();
-		article.setInternationals(Integer.parseInt("0"));
-		article.setNationals(Integer.parseInt("0"));
-		article.setLocals(Integer.parseInt("0"));
+		article.setArticlesPublishedJournals(Integer.parseInt("0"));
+		article.setArticlesPublishedConferenceProceedings(Integer.parseInt("0"));
 		article.save();
 		
-		assertEquals(initialCount+1, (int)Article.count());
-		assertEquals(Article.getAll().size(), (int)Article.count());
+		assertEquals(initialCount+1, Article.count());
+		assertEquals(Article.getAll().size(), Article.count());
 		article.delete();
 	}
 
 	@Test
 	public void shouldGetArticleOnDataBase() throws ClassNotFoundException, SQLException {
 		Article article1 = new Article();
-		article1.setInternationals(Integer.parseInt("0"));
-		article1.setNationals(Integer.parseInt("0"));
-		article1.setLocals(Integer.parseInt("0"));
+		article1.setArticlesPublishedJournals(Integer.parseInt("0"));
+		article1.setArticlesPublishedConferenceProceedings(Integer.parseInt("0"));
 		article1.save();
 
 		Article article2 = Article.get(Article.last().getId());
 
-		assertEquals(article1.getInternationals(), article2.getInternationals());
-		assertEquals(article1.getNationals(), article2.getNationals());
-		assertEquals(article1.getLocals(), article2.getLocals());
+		assertEquals(article1.getArticlesPublishedJournals(), article2.getArticlesPublishedJournals());
+		assertEquals(article1.getArticlesPublishedConferenceProceedings(), article2.getArticlesPublishedConferenceProceedings());
 		article1.delete();
 	}
 
@@ -97,9 +91,8 @@ public class TestArticle {
 	@Test
 	public void shouldGetTheFirstArticleOnDataBase() throws ClassNotFoundException, SQLException {
 		Article first = Article.first();
-		assertEquals(first.getInternationals(), Article.getAll().get(0).getInternationals());
-		assertEquals(first.getNationals(), Article.getAll().get(0).getNationals());
-		assertEquals(first.getLocals(), Article.getAll().get(0).getLocals());
+		assertEquals(first.getArticlesPublishedJournals(), Article.getAll().get(0).getArticlesPublishedJournals());
+		assertEquals(first.getArticlesPublishedConferenceProceedings(), Article.getAll().get(0).getArticlesPublishedConferenceProceedings());
 	}
 
 	@Test
@@ -107,27 +100,24 @@ public class TestArticle {
 		Article last = Article.last();
 
 		ArrayList<Article> article = Article.getAll();
-		assertEquals(last.getInternationals(), article.get(article.size()-1).getInternationals());
-		assertEquals(last.getNationals(), article.get(article.size()-1).getNationals());
-		assertEquals(last.getLocals(), article.get(article.size()-1).getLocals());
+		assertEquals(last.getArticlesPublishedJournals(), article.get(article.size()-1).getArticlesPublishedJournals());
+		assertEquals(last.getArticlesPublishedConferenceProceedings(), article.get(article.size()-1).getArticlesPublishedConferenceProceedings());
 	}
 	
 	@Test
 	public void shouldGetArticleWithWhereOnDataBase() throws ClassNotFoundException, SQLException {
 		Article article = new Article();
-		article.setInternationals(Integer.parseInt("8000"));
-		article.setNationals(Integer.parseInt("8"));
-		article.setLocals(Integer.parseInt("1"));
+		article.setArticlesPublishedJournals(Integer.parseInt("8000"));
+		article.setArticlesPublishedConferenceProceedings(Integer.parseInt("8"));
 		article.save();
 
 		Article article1 = new Article();
-		article1.setInternationals(Integer.parseInt("10000"));
-		article1.setNationals(Integer.parseInt("10"));
-		article1.setLocals(Integer.parseInt("6"));
+		article1.setArticlesPublishedJournals(Integer.parseInt("10000"));
+		article1.setArticlesPublishedConferenceProceedings(Integer.parseInt("10"));
 		article1.save();
 
-		ArrayList<Article> articles1 = Article.getWhere("internationals", "00", true);
-		ArrayList<Article> articles2 = Article.getWhere("internationals", "10", true);
+		ArrayList<Article> articles1 = Article.getWhere("articles_published_journals", "00", true);
+		ArrayList<Article> articles2 = Article.getWhere("articles_published_journals", "10", true);
 		
 		assertEquals(2, articles1.size());
 		assertEquals(1, articles2.size());
