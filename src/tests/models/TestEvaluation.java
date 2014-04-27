@@ -52,7 +52,6 @@ public class TestEvaluation {
 		evaluation.setDissertations(Integer.parseInt("3"));
 		evaluation.setIdArticles(article.getId());
 		evaluation.setIdBooks(book.getId());
-		evaluation.setPublishedWorks(Integer.parseInt("4"));
 		evaluation.setArtisticProduction(Integer.parseInt("5"));
 		evaluation.save();
 		
@@ -85,7 +84,6 @@ public class TestEvaluation {
 		evaluation.setDissertations(Integer.parseInt("4"));
 		evaluation.setIdArticles(article.getId());
 		evaluation.setIdBooks(book.getId());
-		evaluation.setPublishedWorks(Integer.parseInt("5"));
 		evaluation.setArtisticProduction(Integer.parseInt("6"));
 		evaluation.save();
 	}
@@ -129,7 +127,6 @@ public class TestEvaluation {
 		evaluation.setDissertations(Integer.parseInt("3"));
 		evaluation.setIdArticles(article.getId());
 		evaluation.setIdBooks(book.getId());
-		evaluation.setPublishedWorks(Integer.parseInt("4"));
 		evaluation.setArtisticProduction(Integer.parseInt("5"));
 		
 		assertEquals(true, evaluation.save());
@@ -199,7 +196,6 @@ public class TestEvaluation {
 	public void shouldGetTheLastEvaluationOnDataBase() throws ClassNotFoundException, SQLException {
 		Evaluation lastEvaluation = Evaluation.last();
 		int last = Evaluation.getAll().size()-1;
-		assertEquals(lastEvaluation.getPublishedWorks(), Evaluation.getAll().get(last).getPublishedWorks());
 		assertEquals(lastEvaluation.getArtisticProduction(), Evaluation.getAll().get(last).getArtisticProduction());
 	}
 	
