@@ -32,7 +32,7 @@ public class TestEvaluation {
 		course.save();
 		
 		Article article = new Article();
-		article.setArticlesPublishedJournals(1);
+		article.setPublishedJournals(1);
 		article.save();
 		
 		Book book = new Book();
@@ -64,7 +64,7 @@ public class TestEvaluation {
 		course.save();
 		
 		article = new Article();
-		article.setArticlesPublishedJournals(Integer.parseInt("2"));
+		article.setPublishedJournals(Integer.parseInt("2"));
 		article.save();
 		
 		book = new Book();
@@ -107,7 +107,7 @@ public class TestEvaluation {
 		course.save();
 		
 		Article article = new Article();
-		article.setArticlesPublishedJournals(Integer.parseInt("1"));
+		article.setPublishedJournals(Integer.parseInt("1"));
 		article.save();
 		
 		Book book = new Book();
@@ -133,7 +133,7 @@ public class TestEvaluation {
 		assertEquals(initialCount, Evaluation.count()-1);
 		assertEquals("1", Institution.get(Evaluation.last().getIdInstitution()).getAcronym());
 		assertEquals("name course", Course.get(Evaluation.last().getIdCourse()).getName());
-		assertEquals(1, Article.get(Evaluation.last().getIdArticles()).getArticlesPublishedJournals());
+		assertEquals(1, Article.get(Evaluation.last().getIdArticles()).getPublishedJournals());
 		assertEquals(1, Book.get(Evaluation.last().getIdBooks()).getIntegralText());
 		
 		institution.delete();
