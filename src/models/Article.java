@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 public class Article extends Bean {
 	private int id;
-	private int articlesPublishedJournals;
-	private int articlesPublishedConferenceProceedings;
+	private int publishedJournals;
+	private int publishedConferenceProceedings;
 
 	public Article() {
 		this.id = 0;
@@ -28,21 +28,21 @@ public class Article extends Bean {
 		this.id = id;
 	}
 
-	public int getArticlesPublishedJournals() {
-		return articlesPublishedJournals;
+	public int getPublishedJournals() {
+		return publishedJournals;
 	}
 
-	public void setArticlesPublishedJournals(int articlesPublishedJournals) {
-		this.articlesPublishedJournals = articlesPublishedJournals;
+	public void setPublishedJournals(int publishedJournals) {
+		this.publishedJournals = publishedJournals;
 	}
 
-	public int getArticlesPublishedConferenceProceedings() {
-		return articlesPublishedConferenceProceedings;
+	public int getPublishedConferenceProceedings() {
+		return publishedConferenceProceedings;
 	}
 
-	public void setArticlesPublishedConferenceProceedings(
-			int articlesPublishedConferenceProceedings) {
-		this.articlesPublishedConferenceProceedings = articlesPublishedConferenceProceedings;
+	public void setPublishedConferenceProceedings(
+			int publishedConferenceProceedings) {
+		this.publishedConferenceProceedings = publishedConferenceProceedings;
 	}
 
 
@@ -118,12 +118,12 @@ public class Article extends Bean {
 			return Integer.toString(this.getId());
 		}
 		
-		else if(field.equals("articles_published_journals")) {
-			return Integer.toString(this.getArticlesPublishedJournals());
+		else if(field.equals("published_journals")) {
+			return Integer.toString(this.getPublishedJournals());
 		}
 		
-		else if (field.equals("articles_published_conference_proceedings")) {
-			return Integer.toString(this.getArticlesPublishedConferenceProceedings());
+		else if (field.equals("published_conference_proceedings")) {
+			return Integer.toString(this.getPublishedConferenceProceedings());
 		}
 		
 		else {
@@ -137,12 +137,12 @@ public class Article extends Bean {
 			this.setId(Integer.parseInt(data));
 		} 
 		
-		else if (field.equals("articles_published_journals")) {
-			this.setArticlesPublishedJournals(Integer.parseInt(data));
+		else if (field.equals("published_journals")) {
+			this.setPublishedJournals(Integer.parseInt(data));
 		}
 		
-		else if (field.equals("articles_published_conference_proceedings")) {
-			this.setArticlesPublishedConferenceProceedings(Integer.parseInt(data));
+		else if (field.equals("published_conference_proceedings")) {
+			this.setPublishedConferenceProceedings(Integer.parseInt(data));
 		}
 		
 		else {
@@ -155,8 +155,8 @@ public class Article extends Bean {
 	public ArrayList<String> fieldsList() {
 		ArrayList<String> fields = new ArrayList<String>();
 		fields.add("id");
-		fields.add("articles_published_journals");
-		fields.add("articles_published_conference_proceedings");
+		fields.add("published_journals");
+		fields.add("published_conference_proceedings");
 		return fields;
 	}
 }
