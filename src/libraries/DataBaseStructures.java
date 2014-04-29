@@ -68,8 +68,8 @@ public class DataBaseStructures extends DataBaseConnection {
     private void buildTableArticles() throws SQLException {
     	String sql = "CREATE TABLE IF NOT EXISTS 'articles' (" +
     		    "'id' INTEGER PRIMARY KEY AUTOINCREMENT," +
-    		    "'articles_published_journals' INTEGER," +
-    		    "'articles_published_conference_proceedings' INTEGER)";
+    		    "'published_journals' INTEGER," +
+    		    "'published_conference_proceedings' INTEGER)";
     	this.stm.execute(sql);
     }
 
