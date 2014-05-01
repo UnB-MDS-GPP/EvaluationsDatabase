@@ -18,7 +18,6 @@ public class Evaluation extends Bean {
 	private int dissertations;
 	private int idArticles;
 	private int idBooks;
-	private int publishedWorks;
 	private int artisticProduction;
 
 	public Evaluation() {
@@ -62,8 +61,6 @@ public class Evaluation extends Bean {
 			return Integer.toString(this.getIdArticles());
 		} else if (field.equals("id_books")) {
 			return Integer.toString(this.getIdBooks());
-		} else if (field.equals("published_works")) {
-			return Integer.toString(this.getPublishedWorks());
 		} else if (field.equals("artistic_production")) {
 			return Integer.toString(this.getArtisticProduction());
 		} else
@@ -99,8 +96,6 @@ public class Evaluation extends Bean {
 			this.setIdArticles(Integer.parseInt(data));
 		} else if (field.equals("id_books")) {
 			this.setIdBooks(Integer.parseInt(data));
-		} else if (field.equals("published_works")) {
-			this.setPublishedWorks(Integer.parseInt(data));
 		} else if (field.equals("artistic_production")) {
 			this.setArtisticProduction(Integer.parseInt(data));
 		} else{
@@ -126,7 +121,6 @@ public class Evaluation extends Bean {
 		fields.add("dissertations");
 		fields.add("id_articles");
 		fields.add("id_books");
-		fields.add("published_works");
 		fields.add("artistic_production");
 		return fields;
 	}
@@ -299,14 +293,6 @@ public class Evaluation extends Bean {
 
 	public void setIdBooks(int idBooks) {
 		this.idBooks = idBooks;
-	}
-
-	public int getPublishedWorks() {
-		return publishedWorks;
-	}
-
-	public void setPublishedWorks(int publishedWorks) {
-		this.publishedWorks = publishedWorks;
 	}
 
 	public int getArtisticProduction() {

@@ -20,13 +20,13 @@ public class TestArticle {
 		DataBaseStructures db = new DataBaseStructures();
 		db.initDB();
 		Article article = new Article();
-		article.setArticlesPublishedJournals(Integer.parseInt("1"));
-		article.setArticlesPublishedConferenceProceedings(Integer.parseInt("2"));
+		article.setPublishedJournals(Integer.parseInt("1"));
+		article.setPublishedConferenceProceedings(Integer.parseInt("2"));
 		article.save();
 
 		article = new Article();
-		article.setArticlesPublishedJournals(Integer.parseInt("2"));
-		article.setArticlesPublishedConferenceProceedings(Integer.parseInt("8"));
+		article.setPublishedJournals(Integer.parseInt("2"));
+		article.setPublishedConferenceProceedings(Integer.parseInt("8"));
 		article.save();
 	}
 
@@ -47,8 +47,8 @@ public class TestArticle {
 		int initialCount = Article.count();
 
 		Article article = new Article();
-		article.setArticlesPublishedJournals(Integer.parseInt("0"));
-		article.setArticlesPublishedConferenceProceedings(Integer.parseInt("0"));
+		article.setPublishedJournals(Integer.parseInt("0"));
+		article.setPublishedConferenceProceedings(Integer.parseInt("0"));
 
 		assertEquals(true, article.save());
 		assertEquals(initialCount, Article.count()-1);
@@ -59,8 +59,8 @@ public class TestArticle {
 	public void shouldCountArticleOnDataBase() throws ClassNotFoundException, SQLException {
 		int initialCount = Article.count();
 		Article article = new Article();
-		article.setArticlesPublishedJournals(Integer.parseInt("0"));
-		article.setArticlesPublishedConferenceProceedings(Integer.parseInt("0"));
+		article.setPublishedJournals(Integer.parseInt("0"));
+		article.setPublishedConferenceProceedings(Integer.parseInt("0"));
 		article.save();
 		
 		assertEquals(initialCount+1, Article.count());
@@ -71,14 +71,14 @@ public class TestArticle {
 	@Test
 	public void shouldGetArticleOnDataBase() throws ClassNotFoundException, SQLException {
 		Article article1 = new Article();
-		article1.setArticlesPublishedJournals(Integer.parseInt("0"));
-		article1.setArticlesPublishedConferenceProceedings(Integer.parseInt("0"));
+		article1.setPublishedJournals(Integer.parseInt("0"));
+		article1.setPublishedConferenceProceedings(Integer.parseInt("0"));
 		article1.save();
 
 		Article article2 = Article.get(Article.last().getId());
 
-		assertEquals(article1.getArticlesPublishedJournals(), article2.getArticlesPublishedJournals());
-		assertEquals(article1.getArticlesPublishedConferenceProceedings(), article2.getArticlesPublishedConferenceProceedings());
+		assertEquals(article1.getPublishedJournals(), article2.getPublishedJournals());
+		assertEquals(article1.getPublishedConferenceProceedings(), article2.getPublishedConferenceProceedings());
 		article1.delete();
 	}
 
@@ -91,8 +91,8 @@ public class TestArticle {
 	@Test
 	public void shouldGetTheFirstArticleOnDataBase() throws ClassNotFoundException, SQLException {
 		Article first = Article.first();
-		assertEquals(first.getArticlesPublishedJournals(), Article.getAll().get(0).getArticlesPublishedJournals());
-		assertEquals(first.getArticlesPublishedConferenceProceedings(), Article.getAll().get(0).getArticlesPublishedConferenceProceedings());
+		assertEquals(first.getPublishedJournals(), Article.getAll().get(0).getPublishedJournals());
+		assertEquals(first.getPublishedConferenceProceedings(), Article.getAll().get(0).getPublishedConferenceProceedings());
 	}
 
 	@Test
@@ -100,24 +100,24 @@ public class TestArticle {
 		Article last = Article.last();
 
 		ArrayList<Article> article = Article.getAll();
-		assertEquals(last.getArticlesPublishedJournals(), article.get(article.size()-1).getArticlesPublishedJournals());
-		assertEquals(last.getArticlesPublishedConferenceProceedings(), article.get(article.size()-1).getArticlesPublishedConferenceProceedings());
+		assertEquals(last.getPublishedJournals(), article.get(article.size()-1).getPublishedJournals());
+		assertEquals(last.getPublishedConferenceProceedings(), article.get(article.size()-1).getPublishedConferenceProceedings());
 	}
 	
 	@Test
 	public void shouldGetArticleWithWhereOnDataBase() throws ClassNotFoundException, SQLException {
 		Article article = new Article();
-		article.setArticlesPublishedJournals(Integer.parseInt("8000"));
-		article.setArticlesPublishedConferenceProceedings(Integer.parseInt("8"));
+		article.setPublishedJournals(Integer.parseInt("8000"));
+		article.setPublishedConferenceProceedings(Integer.parseInt("8"));
 		article.save();
 
 		Article article1 = new Article();
-		article1.setArticlesPublishedJournals(Integer.parseInt("10000"));
-		article1.setArticlesPublishedConferenceProceedings(Integer.parseInt("10"));
+		article1.setPublishedJournals(Integer.parseInt("10000"));
+		article1.setPublishedConferenceProceedings(Integer.parseInt("10"));
 		article1.save();
 
-		ArrayList<Article> articles1 = Article.getWhere("articles_published_journals", "00", true);
-		ArrayList<Article> articles2 = Article.getWhere("articles_published_journals", "10", true);
+		ArrayList<Article> articles1 = Article.getWhere("published_journals", "00", true);
+		ArrayList<Article> articles2 = Article.getWhere("published_journals", "10", true);
 		
 		assertEquals(2, articles1.size());
 		assertEquals(1, articles2.size());

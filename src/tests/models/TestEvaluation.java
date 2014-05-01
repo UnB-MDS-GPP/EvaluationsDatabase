@@ -32,7 +32,7 @@ public class TestEvaluation {
 		course.save();
 		
 		Article article = new Article();
-		article.setArticlesPublishedJournals(1);
+		article.setPublishedJournals(1);
 		article.save();
 		
 		Book book = new Book();
@@ -52,7 +52,6 @@ public class TestEvaluation {
 		evaluation.setDissertations(Integer.parseInt("3"));
 		evaluation.setIdArticles(article.getId());
 		evaluation.setIdBooks(book.getId());
-		evaluation.setPublishedWorks(Integer.parseInt("4"));
 		evaluation.setArtisticProduction(Integer.parseInt("5"));
 		evaluation.save();
 		
@@ -65,7 +64,7 @@ public class TestEvaluation {
 		course.save();
 		
 		article = new Article();
-		article.setArticlesPublishedJournals(Integer.parseInt("2"));
+		article.setPublishedJournals(Integer.parseInt("2"));
 		article.save();
 		
 		book = new Book();
@@ -85,7 +84,6 @@ public class TestEvaluation {
 		evaluation.setDissertations(Integer.parseInt("4"));
 		evaluation.setIdArticles(article.getId());
 		evaluation.setIdBooks(book.getId());
-		evaluation.setPublishedWorks(Integer.parseInt("5"));
 		evaluation.setArtisticProduction(Integer.parseInt("6"));
 		evaluation.save();
 	}
@@ -109,7 +107,7 @@ public class TestEvaluation {
 		course.save();
 		
 		Article article = new Article();
-		article.setArticlesPublishedJournals(Integer.parseInt("1"));
+		article.setPublishedJournals(Integer.parseInt("1"));
 		article.save();
 		
 		Book book = new Book();
@@ -129,14 +127,13 @@ public class TestEvaluation {
 		evaluation.setDissertations(Integer.parseInt("3"));
 		evaluation.setIdArticles(article.getId());
 		evaluation.setIdBooks(book.getId());
-		evaluation.setPublishedWorks(Integer.parseInt("4"));
 		evaluation.setArtisticProduction(Integer.parseInt("5"));
 		
 		assertEquals(true, evaluation.save());
 		assertEquals(initialCount, Evaluation.count()-1);
 		assertEquals("1", Institution.get(Evaluation.last().getIdInstitution()).getAcronym());
 		assertEquals("name course", Course.get(Evaluation.last().getIdCourse()).getName());
-		assertEquals(1, Article.get(Evaluation.last().getIdArticles()).getArticlesPublishedJournals());
+		assertEquals(1, Article.get(Evaluation.last().getIdArticles()).getPublishedJournals());
 		assertEquals(1, Book.get(Evaluation.last().getIdBooks()).getIntegralText());
 		
 		institution.delete();
@@ -199,7 +196,6 @@ public class TestEvaluation {
 	public void shouldGetTheLastEvaluationOnDataBase() throws ClassNotFoundException, SQLException {
 		Evaluation lastEvaluation = Evaluation.last();
 		int last = Evaluation.getAll().size()-1;
-		assertEquals(lastEvaluation.getPublishedWorks(), Evaluation.getAll().get(last).getPublishedWorks());
 		assertEquals(lastEvaluation.getArtisticProduction(), Evaluation.getAll().get(last).getArtisticProduction());
 	}
 	
