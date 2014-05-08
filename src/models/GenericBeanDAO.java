@@ -12,7 +12,24 @@ public class GenericBeanDAO extends DataBaseConnection {
 		super();
 	}
 
-	
+	public boolean beanHasElementWithAttribute(Bean bean, String column, String value) throws SQLException {
+		int result = 0;
+
+		this.openConnection();
+		String sql = "SELECT 1 AS one FROM '"+bean.identifier+"' WHERE '"+bean.identifier+"'.'"+column+"' = ? LIMIT 1";
+		this.pst = this.conn.prepareStatement(sql);
+
+		this.pst.setString(1, value);
+		ResultSet rs = this.pst.executeQuery();
+
+		if (rs.next()) {
+			result = rs.getInt(1);
+		}
+		this.closeConnection();
+
+		return (result == 1) ? true : false;
+	}
+
 	public ArrayList<Bean> selectBeanRelationship(Bean bean, String table)
 			throws SQLException {
 		this.openConnection();
@@ -32,6 +49,29 @@ public class GenericBeanDAO extends DataBaseConnection {
 		}
 		this.closeConnection();
 		return beans;
+	}
+
+	public boolean verifyIfAlreadyExistsBeanRelationship (Bean first, Bean second) throws SQLException {
+		int result = 0;
+
+		this.openConnection();
+		String sql = "SELECT 1 AS one FROM 'courses_institutions' "+
+				"WHERE 'courses_institutions'.'id_"+first.identifier+"' = ? "+
+				"AND 'courses_institutions'.'id_"+second.identifier+"' = ? "+
+				"LIMIT 1";
+
+		this.pst = this.conn.prepareStatement(sql);
+		this.pst.setString(1, first.get(first.fieldsList().get(0)));
+		this.pst.setString(2, second.get(second.fieldsList().get(0)));
+
+		ResultSet rs = this.pst.executeQuery();
+
+		if (rs.next()) {
+			result = rs.getInt(1);
+		}
+		this.closeConnection();
+
+		return (result == 1) ? true : false;
 	}
 
 	public boolean insertBean(Bean bean) throws SQLException {

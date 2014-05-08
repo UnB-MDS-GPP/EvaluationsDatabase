@@ -42,7 +42,7 @@ public class Institution extends Bean {
 		this.setId(Institution.last().getId());
 		return result;
 	}
-	
+
 	public boolean addCourse(Course course) throws ClassNotFoundException, SQLException {
 		boolean result = false;
 		GenericBeanDAO gDB = new GenericBeanDAO();
@@ -100,8 +100,18 @@ public class Institution extends Bean {
 		}
 		return courses;
 	}
-	
-	
+
+	public boolean hasCourse(Course course) throws ClassNotFoundException, SQLException {
+		GenericBeanDAO gDB = new GenericBeanDAO();
+
+		return gDB.verifyIfAlreadyExistsBeanRelationship(this, course);
+	}
+
+	public static boolean alreadyExistsWith(String column, String value) throws ClassNotFoundException, SQLException {
+		GenericBeanDAO gDB = new GenericBeanDAO();
+
+		return gDB.beanHasElementWithAttribute(new Institution(), column, value);
+	}
 
 	public static ArrayList<Institution> getWhere(String field, String value,
 			boolean like) throws ClassNotFoundException, SQLException {
@@ -113,7 +123,7 @@ public class Institution extends Bean {
 		}
 		return result;
 	}
-	
+
 	public boolean delete() throws ClassNotFoundException, SQLException {
 		boolean result = false;
 		GenericBeanDAO gDB = new GenericBeanDAO();
@@ -141,10 +151,7 @@ public class Institution extends Bean {
 			this.setId(Integer.parseInt(data));
 		} else if (field.equals("acronym")) {
 			this.setAcronym(data);
-		} else {
-
 		}
-
 	}
 
 	@Override

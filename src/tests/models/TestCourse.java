@@ -153,4 +153,29 @@ public class TestCourse {
 		course.delete();
 		course1.delete();
 	}
+
+	@Test
+	public void shouldTellIfAltradyHasACourseWithTheSameName() throws ClassNotFoundException, SQLException {
+		assertEquals(true, Course.alreadyExistsWith("name", "one"));
+		assertEquals(true, Course.alreadyExistsWith("name", "two"));
+		assertEquals(false, Course.alreadyExistsWith("name", "other"));
+	}
+
+	@Test
+	public void shouldTellIfTheCourseAlreadyHasAnInstitution() throws ClassNotFoundException, SQLException {
+		Course course = Course.get(1);
+
+		Institution institutionA = new Institution();
+		institutionA.setAcronym("AAA");
+		institutionA.save();
+
+		Institution institutionB = new Institution();
+		institutionB.setAcronym("BBB");
+		institutionB.save();
+
+		course.addInstitution(institutionA);
+
+		assertEquals(true, course.hasInstitution(institutionA));
+		assertEquals(false, course.hasInstitution(institutionB));
+	}
 }

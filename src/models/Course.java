@@ -114,6 +114,12 @@ public class Course extends Bean{
 		return result;
 	}
 
+	public static boolean alreadyExistsWith(String column, String value) throws ClassNotFoundException, SQLException {
+		GenericBeanDAO gDB = new GenericBeanDAO();
+
+		return gDB.beanHasElementWithAttribute(new Course(), column, value);
+	}
+
 	public boolean delete() throws ClassNotFoundException, SQLException {
 		boolean result = false;
 		GenericBeanDAO gDB = new GenericBeanDAO();
@@ -123,7 +129,13 @@ public class Course extends Bean{
 		result = gDB.deleteBean(this);
 		return result;
 	}
-	
+
+	public boolean hasInstitution(Institution institution) throws ClassNotFoundException, SQLException {
+		GenericBeanDAO gDB = new GenericBeanDAO();
+
+		return gDB.verifyIfAlreadyExistsBeanRelationship(this, institution);
+	}
+
 	@Override
 	public String get(String field) {
 		if(field.equals("id")){
@@ -141,10 +153,7 @@ public class Course extends Bean{
 			this.setId(Integer.parseInt(data));
 		}else if(field.equals("name")){
 			this.setName(data);
-		}else {
-		
 		}
-		
 	}
 
 	@Override

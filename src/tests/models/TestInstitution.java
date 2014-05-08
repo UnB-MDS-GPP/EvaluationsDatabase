@@ -152,4 +152,29 @@ public class TestInstitution {
 		institution.delete();
 		institution1.delete();
 	}
+
+	@Test
+	public void shouldTellIfAltradyHasAnInstitutionWithTheSameAcronym() throws ClassNotFoundException, SQLException {
+		assertEquals(true, Institution.alreadyExistsWith("acronym", "one"));
+		assertEquals(true, Institution.alreadyExistsWith("acronym", "two"));
+		assertEquals(false, Institution.alreadyExistsWith("acronym", "other"));
+	}
+
+	@Test
+	public void shouldTellIfTheInstitutionAlreadyHasACourse() throws ClassNotFoundException, SQLException {
+		Institution institution = Institution.get(1);
+
+		Course courseA = new Course();
+		courseA.setName("AAA");
+		courseA.save();
+
+		Course courseB = new Course();
+		courseB.setName("BBB");
+		courseB.save();
+
+		institution.addCourse(courseA);
+
+		assertEquals(true, institution.hasCourse(courseA));
+		assertEquals(false, institution.hasCourse(courseB));
+	}
 }

@@ -125,7 +125,7 @@ public class Article extends Bean {
 		else if (field.equals("published_conference_proceedings")) {
 			return Integer.toString(this.getPublishedConferenceProceedings());
 		}
-		
+
 		else {
 			return "";
 		}
@@ -144,11 +144,6 @@ public class Article extends Bean {
 		else if (field.equals("published_conference_proceedings")) {
 			this.setPublishedConferenceProceedings(Integer.parseInt(data));
 		}
-		
-		else {
-
-		}
-		
 	}
 
 	@Override
