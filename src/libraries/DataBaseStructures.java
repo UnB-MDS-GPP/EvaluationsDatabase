@@ -102,7 +102,6 @@ public class DataBaseStructures extends DataBaseConnection {
     		    "'dissertations' INTEGER," +
     		    "'id_articles' INTEGER NOT NULL," +
     		    "'id_books' INTEGER," +
-    		    "'published_works' INTEGER," +
     		    "'artistic_production' INTEGER)";
     	this.stm.execute(sql);
     }
