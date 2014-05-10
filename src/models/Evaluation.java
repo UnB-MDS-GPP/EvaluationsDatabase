@@ -98,11 +98,7 @@ public class Evaluation extends Bean {
 			this.setIdBooks(Integer.parseInt(data));
 		} else if (field.equals("artistic_production")) {
 			this.setArtisticProduction(Integer.parseInt(data));
-		} else{
-			
 		}
-		
-
 	}
 
 	@Override
