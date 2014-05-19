@@ -145,7 +145,7 @@ public class Evaluation extends Bean {
 		Evaluation type = new Evaluation();
 		ArrayList<Evaluation> result = new ArrayList<Evaluation>();
 		GenericBeanDAO gDB = new GenericBeanDAO();
-		for (Bean b : gDB.selectAllBeans(type)) {
+		for (Object b : gDB.selectAllBeans(type)) {
 			result.add((Evaluation) b);
 		}
 		return result;

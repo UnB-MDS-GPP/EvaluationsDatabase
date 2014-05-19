@@ -65,7 +65,7 @@ public class Course extends Bean{
 		Course type = new Course();
 		ArrayList<Course> result = new ArrayList<Course>();
 		GenericBeanDAO gDB = new GenericBeanDAO();
-		for (Bean b : gDB.selectAllBeans(type)) {
+		for (Object b : gDB.selectAllBeans(type)) {
 			result.add((Course) b);
 		}
 		return result;

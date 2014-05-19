@@ -63,7 +63,7 @@ public class Institution extends Bean {
 		Institution type = new Institution();
 		ArrayList<Institution> result = new ArrayList<Institution>();
 		GenericBeanDAO gDB = new GenericBeanDAO();
-		for (Bean b : gDB.selectAllBeans(type)) {
+		for (Object b : gDB.selectAllBeans(type)) {
 			result.add((Institution) b);
 		}
 		return result;

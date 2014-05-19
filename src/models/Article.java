@@ -66,7 +66,7 @@ public class Article extends Bean {
 		Article type = new Article();
 		ArrayList<Article> result = new ArrayList<Article>();
 		GenericBeanDAO gDB = new GenericBeanDAO();
-		for (Bean b : gDB.selectAllBeans(type)) {
+		for (Object b : gDB.selectAllBeans(type)) {
 			result.add((Article) b);
 		}
 		return result;

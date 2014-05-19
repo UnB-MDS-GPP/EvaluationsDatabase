@@ -1,9 +1,16 @@
 package models;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.google.common.base.CaseFormat;
+
+import sun.misc.Regexp;
+import sun.org.mozilla.javascript.internal.ast.RegExpLiteral;
 import libraries.DataBaseConnection;
 
 public class GenericBeanDAO extends DataBaseConnection {
@@ -104,27 +111,107 @@ public class GenericBeanDAO extends DataBaseConnection {
 		return result;
 	}
 
-	public ArrayList<Bean> selectAllBeans(Bean type) throws SQLException {
+	public ArrayList<Object> selectAllBeans(Object type) throws SQLException{
 		this.openConnection();
-		ArrayList<Bean> beans = new ArrayList<Bean>();
-		String sql = "SELECT * FROM " + type.identifier;
+		ArrayList<Object> beans = new ArrayList<Object>();
+		String identifier = parseUnderscore(type.getClass().getSimpleName());
+		String sql = "SELECT * FROM " + identifier;
 		this.pst = this.conn.prepareStatement(sql);
 
 		ResultSet rs = this.pst.executeQuery();
 		while (rs.next()) {
-			Bean bean = init(type.identifier);
+			
+			Object bean = null;// = init(type.identifier);
+			
+				try {
+					bean = type.getClass().newInstance();
+				} catch (InstantiationException | IllegalAccessException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			
+				for(Field f : bean.getClass().getDeclaredFields()){
+			for(Method m : bean.getClass().getDeclaredMethods()){
+				if(m.getName().startsWith("set")){
+					if(m.getName().substring(3).equalsIgnoreCase(f.getName())){
+						try {
+							m.invoke(bean,rs.getObject(parseUnderscore(f.getName())));
+						} catch (IllegalAccessException
+								| IllegalArgumentException
+								| InvocationTargetException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+			}
+			/*
 			for (String s : type.fieldsList()) {
 				bean.set(s, rs.getString(s));
 			}
+			*/
 			beans.add(bean);
 		}
 		this.closeConnection();
 		return beans;
 	}
+	
+	public ArrayList<Object> selectAllBeans() throws SQLException{
+		this.openConnection();
+		
+		ArrayList<Object> beans = new ArrayList<Object>();
+		String identifier = parseUnderscore(this.getClass().getSimpleName());
+		String sql = "SELECT * FROM " + identifier;
+		this.pst = this.conn.prepareStatement(sql);
 
-	public Integer countBean(Bean type) throws SQLException {
+		ResultSet rs = this.pst.executeQuery();
+		while (rs.next()) {
+			
+			Object bean = null;// = init(type.identifier);
+			
+				try {
+					bean = this.getClass().newInstance();
+				} catch (InstantiationException | IllegalAccessException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			
+				for(Field f : bean.getClass().getDeclaredFields()){
+			for(Method m : bean.getClass().getDeclaredMethods()){
+				if(m.getName().startsWith("set")){
+					if(m.getName().substring(3).equalsIgnoreCase(f.getName())){
+						try {
+							m.invoke(bean,rs.getObject(parseUnderscore(f.getName())));
+						} catch (IllegalAccessException
+								| IllegalArgumentException
+								| InvocationTargetException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+			}
+			/*
+			for (String s : type.fieldsList()) {
+				bean.set(s, rs.getString(s));
+			}
+			*/
+			beans.add(bean);
+		}
+		this.closeConnection();
+		return beans;
+	}
+	
+	public String parseUnderscore(String camel){
+		camel = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, camel);
+		return camel;
+	}
+
+	public Integer countBean(Object type) throws SQLException {
 		Integer count = 0;
-		String sql = "SELECT COUNT(*) FROM " + type.identifier;
+		String sql = "SELECT COUNT(*) FROM " + parseUnderscore(type.getClass().getSimpleName());
 
 		this.openConnection();
 		this.pst = this.conn.prepareStatement(sql);
